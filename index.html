@@ -24,11 +24,25 @@
         }
         .fade-in {
             animation: fadeIn 0.8s ease-out forwards;
-            opacity: 0; /* Asegura que los elementos estén ocultos antes de la animación */
+            opacity: 0;
         }
         .delay-1 { animation-delay: 0.2s; }
         .delay-2 { animation-delay: 0.4s; }
         .delay-3 { animation-delay: 0.6s; }
+        .lang-btn {
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-weight: 600;
+            transition: all 0.2s ease-in-out;
+        }
+        .lang-btn.active {
+            background-color: #3b82f6; /* bg-blue-600 */
+            color: white;
+        }
+        .lang-btn:not(.active) {
+            background-color: #e5e7eb; /* bg-gray-200 */
+            color: #4b5563; /* text-gray-600 */
+        }
     </style>
 </head>
 <body class="text-gray-800">
@@ -36,14 +50,17 @@
     <!-- Header -->
     <header class="bg-white shadow-sm sticky top-0 z-50">
         <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="#" class="text-2xl font-bold text-gray-900">Frank Mercado <span class="text-blue-600">Fit</span></a>
+            <a href="index.html" class="text-2xl font-bold text-gray-900">Frank Mercado <span class="text-blue-600">Fit</span></a>
             <div class="flex items-center space-x-5">
+                <a href="planes.html" data-key="navPlanes" class="text-gray-600 font-semibold hover:text-blue-600 transition-colors duration-300">Planes</a>
+                <div class="flex items-center space-x-2 border border-gray-200 rounded-full p-1">
+                    <button id="lang-es" class="lang-btn">ES</button>
+                    <button id="lang-en" class="lang-btn">EN</button>
+                </div>
                 <a href="https://x.com/FrankMercadoFit" target="_blank" class="text-gray-500 hover:text-gray-900 transition-colors duration-300">
-                    <!-- Icono de X -->
                     <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>
                 </a>
                 <a href="https://www.instagram.com/frankmercadofit/" target="_blank" class="text-gray-500 hover:text-gray-900 transition-colors duration-300">
-                    <!-- Icono de Instagram -->
                     <svg class="h-7 w-7" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.85s-.011 3.584-.069 4.85c-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07s-3.584-.012-4.85-.07c-3.252-.148-4.771-1.691-4.919-4.919-.058-1.265-.069-1.645-.069-4.85s.011-3.584.069-4.85c.149-3.225 1.664-4.771 4.919-4.919C8.416 2.175 8.796 2.163 12 2.163m0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948s.014 3.667.072 4.947c.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072s3.667-.014 4.947-.072c4.358-.2 6.78-2.618 6.98-6.98.059-1.281.073-1.689.073-4.948s-.014-3.667-.072-4.947c-.2-4.358-2.618-6.78-6.98-6.98C15.667 0 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zm0 10.162a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.88 1.44 1.44 0 000-2.88z"></path></svg>
                 </a>
             </div>
@@ -56,27 +73,27 @@
         <section class="hero-gradient py-20 lg:py-32">
             <div class="container mx-auto px-6 grid lg:grid-cols-2 gap-12 items-center">
                 <div class="text-center lg:text-left">
-                    <h1 class="text-4xl lg:text-6xl font-black text-gray-900 leading-tight mb-4 fade-in">Transforma tu Físico. <br>Transforma tu Vida.</h1>
-                    <p class="text-lg lg:text-xl text-gray-600 mb-8 fade-in delay-1">Resultados reales, sin dietas extremas. Alcanza tus objetivos con un plan diseñado exclusivamente para ti.</p>
-                    <a href="#plan-personalizado" class="inline-block bg-blue-600 text-white font-bold text-lg px-8 py-4 rounded-lg shadow-lg uppercase tracking-wider transition-all duration-300 ease-in-out hover:bg-blue-700 hover:shadow-xl hover:-translate-y-1 transform fade-in delay-2">
-                        Obtener Mi Plan
+                    <h1 data-key="heroTitle" class="text-4xl lg:text-6xl font-black text-gray-900 leading-tight mb-4 fade-in">Transforma tu Físico. <br>Transforma tu Vida.</h1>
+                    <p data-key="heroSubtitle" class="text-lg lg:text-xl text-gray-600 mb-8 fade-in delay-1">Resultados reales, sin dietas extremas. Alcanza tus objetivos con un plan diseñado exclusivamente para ti.</p>
+                    <a href="#plan-personalizado" data-key="heroButton" class="inline-block bg-blue-600 text-white font-bold text-lg px-8 py-4 rounded-lg shadow-lg uppercase tracking-wider transition-all duration-300 ease-in-out hover:bg-blue-700 hover:shadow-xl hover:-translate-y-1 transform fade-in delay-2">
+                        Obtener Mi Plan Gratuito
                     </a>
                 </div>
                 <div class="flex justify-center fade-in delay-3">
-                    <img src="images/profile-frank.png" alt="Foto de Frank Mercado" class="rounded-full w-64 h-64 lg:w-96 lg:h-96 object-cover border-8 border-white shadow-2xl">
+                    <img src="./images/profile-frank.jpg" alt="Foto de Frank Mercado" class="rounded-full w-64 h-64 lg:w-96 lg:h-96 object-cover border-8 border-white shadow-2xl">
                 </div>
             </div>
         </section>
 
-        <!-- Sobre Mí Section -->
+        <!-- About Me Section -->
         <section id="sobre-mi" class="py-20 bg-white">
             <div class="container mx-auto px-6 text-center max-w-4xl">
-                <h2 class="text-3xl lg:text-4xl font-bold mb-4 fade-in">Frank Mercado | Coach Online Certificado NASM</h2>
+                <h2 data-key="aboutTitle" class="text-3xl lg:text-4xl font-bold mb-4 fade-in">Frank Mercado | Coach Online Certificado NASM</h2>
                 <div class="w-24 h-1.5 bg-blue-600 rounded-full mx-auto mb-8 fade-in"></div>
-                <p class="text-gray-600 text-lg leading-relaxed mb-6 fade-in delay-1">
+                <p data-key="aboutP1" class="text-gray-600 text-lg leading-relaxed mb-6 fade-in delay-1">
                     Mi pasión es guiar a las personas a alcanzar sus metas de salud y fitness, transformando sus vidas a través de un enfoque sostenible y realista. Creo firmemente en obtener resultados reales, sin necesidad de dietas extremas ni sacrificios innecesarios.
                 </p>
-                <p class="text-gray-600 text-lg leading-relaxed fade-in delay-2">
+                <p data-key="aboutP2" class="text-gray-600 text-lg leading-relaxed fade-in delay-2">
                     Con el <strong>Sistema M-Fit™</strong>, he diseñado un método que se adapta a tu estilo de vida, proporcionándote las herramientas y el apoyo que necesitas para construir hábitos saludables duraderos. Juntos, crearemos un plan que funcione para ti y te permita disfrutar del proceso mientras ves un progreso increíble.
                 </p>
             </div>
@@ -85,50 +102,50 @@
         <!-- Testimonials Section -->
         <section id="reseñas" class="py-20" style="background-color: #f0f4f8;">
             <div class="container mx-auto px-6 text-center">
-                <h2 class="text-3xl lg:text-4xl font-bold mb-4 fade-in">Lo que dicen mis clientes</h2>
+                <h2 data-key="testimonialsTitle" class="text-3xl lg:text-4xl font-bold mb-4 fade-in">Lo que dicen mis clientes</h2>
                 <div class="w-24 h-1.5 bg-blue-600 rounded-full mx-auto mb-12 fade-in"></div>
                 <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                     <div class="bg-white p-8 rounded-xl shadow-lg fade-in delay-1 flex flex-col justify-center">
-                        <p class="text-gray-600 mb-4">"Frank cambió mi perspectiva sobre el fitness. Su plan fue fácil de seguir y los resultados han sido increíbles. ¡Lo recomiendo al 100%!"</p>
+                        <p data-key="testimonial1" class="text-gray-600 mb-4">"Frank cambió mi perspectiva sobre el fitness. Su plan fue fácil de seguir y los resultados han sido increíbles. ¡Lo recomiendo al 100%!"</p>
                         <p class="font-bold text-gray-800">- Carlos V.</p>
                     </div>
                     <div class="bg-white p-8 rounded-xl shadow-lg fade-in delay-2 flex flex-col justify-center">
-                        <p class="text-gray-600 mb-4">"¡El mejor coach! Siempre está dispuesto a ayudar y a motivarte. Gracias a él, he logrado metas que creía imposibles."</p>
+                        <p data-key="testimonial2" class="text-gray-600 mb-4">"¡El mejor coach! Siempre está dispuesto a ayudar y a motivarte. Gracias a él, he logrado metas que creía imposibles."</p>
                         <p class="font-bold text-gray-800">- Sofia L.</p>
                     </div>
                     <div class="bg-white p-8 rounded-xl shadow-lg fade-in delay-3 flex flex-col justify-center">
-                        <p class="text-gray-600 mb-4">"El Sistema M-Fit es justo lo que necesitaba. Un programa realista y efectivo. He aprendido a comer mejor y a entrenar de forma inteligente."</p>
+                        <p data-key="testimonial3" class="text-gray-600 mb-4">"El Sistema M-Fit es justo lo que necesitaba. Un programa realista y efectivo. He aprendido a comer mejor y a entrenar de forma inteligente."</p>
                         <p class="font-bold text-gray-800">- David G.</p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Plan Personalizado CTA Section -->
+        <!-- Free Plan CTA Section -->
         <section id="plan-personalizado" class="py-20 bg-white">
             <div class="container mx-auto px-6 flex justify-center">
                 <div class="rounded-2xl p-8 lg:p-12 max-w-4xl w-full text-center lg:text-left fade-in">
                     <div class="lg:flex lg:items-center lg:gap-12">
                         <div class="flex-1">
-                            <h3 class="font-bold text-sm uppercase text-blue-600">Tu Transformación Comienza Hoy</h3>
-                            <h2 class="text-3xl lg:text-4xl font-bold my-3">¿Listo/a para recibir tu Plan Personalizado y Gratuito?</h2>
-                            <p class="text-gray-600 mb-6">
+                            <h3 data-key="ctaSubtitle" class="font-bold text-sm uppercase text-blue-600">Tu Transformación Comienza Hoy</h3>
+                            <h2 data-key="ctaTitle" class="text-3xl lg:text-4xl font-bold my-3">¿Listo/a para recibir tu Plan Personalizado y Gratuito?</h2>
+                            <p data-key="ctaDescription" class="text-gray-600 mb-6">
                                 Ya has visto de lo que eres capaz. Es el momento de actuar. Da el primer paso hacia la versión más fuerte y saludable de ti. Este no es solo un plan; es el comienzo de tu nueva vida.
                             </p>
                             <ul class="space-y-4 text-left mb-8">
                                 <li class="flex items-start">
                                     <svg class="w-6 h-6 text-green-500 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                    <span>Un <strong>Plan de Nutrición a tu medida,</strong> sin pasar hambre y disfrutando tus comidas.</span>
+                                    <span data-key="ctaFeature1">Un <strong>Plan de Nutrición a tu medida,</strong> sin pasar hambre y disfrutando tus comidas.</span>
                                 </li>
                                 <li class="flex items-start">
                                     <svg class="w-6 h-6 text-green-500 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                    <span>Una <strong>Rutina de Entrenamiento eficaz</strong> que se adapta a ti y maximiza tus resultados.</span>
+                                    <span data-key="ctaFeature2">Una <strong>Rutina de Entrenamiento eficaz</strong> que se adapta a ti y maximiza tus resultados.</span>
                                 </li>
                             </ul>
-                            <p class="text-gray-500 text-sm">El formulario te tomará solo 5 minutos. Es tu primera inversión en un cambio que durará toda la vida.</p>
+                            <p data-key="ctaNote" class="text-gray-500 text-sm">El formulario te tomará solo 5 minutos. Es tu primera inversión en un cambio que durará toda la vida.</p>
                         </div>
                         <div class="mt-8 lg:mt-0 flex-shrink-0">
-                             <a href="https://docs.google.com/forms/d/e/1FAIpQLSdvg6EZ4p0XrJ9o5XuDm-d6y_qxT-hU1LqJLiV7HIJ_azpsZg/viewform?usp=header" target="_blank" class="w-full lg:w-auto inline-block bg-blue-600 text-white font-bold text-lg px-8 py-5 rounded-lg shadow-lg transition-all duration-300 ease-in-out hover:bg-blue-700 hover:shadow-xl hover:-translate-y-1 transform">
+                             <a href="https://docs.google.com/forms/d/e/1FAIpQLSdvg6EZ4p0XrJ9o5XuDm-d6y_qxT-hU1LqJLiV7HIJ_azpsZg/viewform?usp=header" target="_blank" data-key="ctaButton" class="w-full lg:w-auto inline-block bg-blue-600 text-white font-bold text-lg px-8 py-5 rounded-lg shadow-lg transition-all duration-300 ease-in-out hover:bg-blue-700 hover:shadow-xl hover:-translate-y-1 transform">
                                 ¡Sí, Quiero Mi Plan Gratis!
                             </a>
                         </div>
@@ -141,7 +158,7 @@
     <!-- Footer -->
     <footer class="bg-gray-800 text-white py-8">
         <div class="container mx-auto px-6 text-center">
-            <p class="mb-4">Conéctate conmigo</p>
+            <p data-key="footerConnect" class="mb-4">Conéctate conmigo</p>
             <div class="flex justify-center items-center space-x-6 mb-6">
                 <a href="https://x.com/FrankMercadoFit" target="_blank" class="text-gray-300 hover:text-white transition-colors duration-300">
                     <svg class="h-7 w-7" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>
@@ -150,19 +167,101 @@
                     <svg class="h-8 w-8" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.85s-.011 3.584-.069 4.85c-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07s-3.584-.012-4.85-.07c-3.252-.148-4.771-1.691-4.919-4.919-.058-1.265-.069-1.645-.069-4.85s.011-3.584.069-4.85c.149-3.225 1.664-4.771 4.919-4.919C8.416 2.175 8.796 2.163 12 2.163m0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948s.014 3.667.072 4.947c.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072s3.667-.014 4.947-.072c4.358-.2 6.78-2.618 6.98-6.98.059-1.281.073-1.689.073-4.948s-.014-3.667-.072-4.947c-.2-4.358-2.618-6.78-6.98-6.98C15.667 0 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zm0 10.162a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.88 1.44 1.44 0 000-2.88z"></path></svg>
                 </a>
             </div>
-            <p class="text-sm text-gray-400">&copy; <span id="year"></span> Frank Mercado Fit. Todos los derechos reservados.</p>
+            <p data-key="footerRights" class="text-sm text-gray-400">&copy; <span id="year"></span> Frank Mercado Fit. Todos los derechos reservados.</p>
         </div>
     </footer>
 
     <!-- Botón Flotante de WhatsApp -->
-    <a href="https://wa.me/573044301112" target="_blank" class="fixed bottom-6 right-6 bg-[#25D366] text-white p-4 rounded-full shadow-2xl z-50 transition-all duration-300 ease-in-out hover:scale-110 flex items-center justify-center">
-        <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
-        </svg>
+    <a href="https://wa.me/573044301112" target="_blank" class="fixed bottom-5 right-5 z-50 transition-transform duration-300 hover:scale-110">
+        <img src="./images/whatsapp-logo.png" alt="Contactar por WhatsApp" class="w-16 h-16 rounded-full shadow-lg">
     </a>
 
     <script>
         document.getElementById('year').textContent = new Date().getFullYear();
+        
+        const translations = {
+            en: {
+                navPlanes: "Plans",
+                heroTitle: "Transform Your Physique. <br>Transform Your Life.",
+                heroSubtitle: "Real results, without extreme diets. Reach your goals with a plan designed exclusively for you.",
+                heroButton: "Get My Free Plan",
+                aboutTitle: "Frank Mercado | NASM Certified Online Coach",
+                aboutP1: "My passion is guiding people to achieve their health and fitness goals, transforming their lives through a sustainable and realistic approach. I firmly believe in getting real results, without the need for extreme diets or unnecessary sacrifices.",
+                aboutP2: "With the <strong>M-Fit™ System</strong>, I have designed a method that adapts to your lifestyle, providing you with the tools and support you need to build lasting healthy habits. Together, we will create a plan that works for you and allows you to enjoy the process while seeing incredible progress.",
+                testimonialsTitle: "What my clients say",
+                testimonial1: `"Frank changed my perspective on fitness. His plan was easy to follow and the results have been incredible. I recommend him 100%!"`,
+                testimonial2: `"The best coach! He is always willing to help and motivate you. Thanks to him, I have achieved goals I thought were impossible."`,
+                testimonial3: `"The M-Fit System is just what I needed. A realistic and effective program. I have learned to eat better and train smarter."`,
+                ctaSubtitle: "Your Transformation Starts Today",
+                ctaTitle: "Ready to receive your Free Personalized Plan?",
+                ctaDescription: "You've already seen what you're capable of. Now is the time to act. Take the first step towards the strongest, healthiest version of yourself. This isn't just a plan; it's the start of your new life.",
+                ctaFeature1: "A <strong>Nutrition Plan tailored to you,</strong> without going hungry and enjoying your meals.",
+                ctaFeature2: "An <strong>effective Training Routine</strong> that adapts to you and maximizes your results.",
+                ctaNote: "The form will only take you 5 minutes. It's your first investment in a change that will last a lifetime.",
+                ctaButton: "Yes, I Want My Free Plan!",
+                footerConnect: "Connect with me",
+                footerRights: `&copy; ${new Date().getFullYear()} Frank Mercado Fit. All rights reserved.`
+            },
+            es: {
+                navPlanes: "Planes",
+                heroTitle: "Transforma tu Físico. <br>Transforma tu Vida.",
+                heroSubtitle: "Resultados reales, sin dietas extremas. Alcanza tus objetivos con un plan diseñado exclusivamente para ti.",
+                heroButton: "Obtener Mi Plan Gratuito",
+                aboutTitle: "Frank Mercado | Coach Online Certificado NASM",
+                aboutP1: "Mi pasión es guiar a las personas a alcanzar sus metas de salud y fitness, transformando sus vidas a través de un enfoque sostenible y realista. Creo firmemente en obtener resultados reales, sin necesidad de dietas extremas ni sacrificios innecesarios.",
+                aboutP2: "Con el <strong>Sistema M-Fit™</strong>, he diseñado un método que se adapta a tu estilo de vida, proporcionándote las herramientas y el apoyo que necesitas para construir hábitos saludables duraderos. Juntos, crearemos un plan que funcione para ti y te permita disfrutar del proceso mientras ves un progreso increíble.",
+                testimonialsTitle: "Lo que dicen mis clientes",
+                testimonial1: `"Frank cambió mi perspectiva sobre el fitness. Su plan fue fácil de seguir y los resultados han sido increíbles. ¡Lo recomiendo al 100%!"`,
+                testimonial2: `"¡El mejor coach! Siempre está dispuesto a ayudar y a motivarte. Gracias a él, he logrado metas que creía imposibles."`,
+                testimonial3: `"El Sistema M-Fit es justo lo que necesitaba. Un programa realista y efectivo. He aprendido a comer mejor y a entrenar de forma inteligente."`,
+                ctaSubtitle: "Tu Transformación Comienza Hoy",
+                ctaTitle: "¿Listo/a para recibir tu Plan Personalizado y Gratuito?",
+                ctaDescription: "Ya has visto de lo que eres capaz. Es el momento de actuar. Da el primer paso hacia la versión más fuerte y saludable de ti. Este no es solo un plan; es el comienzo de tu nueva vida.",
+                ctaFeature1: "Un <strong>Plan de Nutrición a tu medida,</strong> sin pasar hambre y disfrutando tus comidas.",
+                ctaFeature2: "Una <strong>Rutina de Entrenamiento eficaz</strong> que se adapta a ti y maximiza tus resultados.",
+                ctaNote: "El formulario te tomará solo 5 minutos. Es tu primera inversión en un cambio que durará toda la vida.",
+                ctaButton: "¡Sí, Quiero Mi Plan Gratis!",
+                footerConnect: "Conéctate conmigo",
+                footerRights: `&copy; ${new Date().getFullYear()} Frank Mercado Fit. Todos los derechos reservados.`
+            }
+        };
+
+        const setLanguage = (lang) => {
+            document.documentElement.lang = lang;
+            localStorage.setItem('language', lang);
+
+            const elements = document.querySelectorAll('[data-key]');
+            elements.forEach(el => {
+                const key = el.getAttribute('data-key');
+                if (translations[lang] && translations[lang][key]) {
+                    el.innerHTML = translations[lang][key];
+                }
+            });
+
+            if (lang === 'en') {
+                document.getElementById('lang-en').classList.add('active');
+                document.getElementById('lang-es').classList.remove('active');
+            } else {
+                document.getElementById('lang-es').classList.add('active');
+                document.getElementById('lang-en').classList.remove('active');
+            }
+        };
+        
+        document.getElementById('lang-es').addEventListener('click', () => setLanguage('es'));
+        document.getElementById('lang-en').addEventListener('click', () => setLanguage('en'));
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedLang = localStorage.getItem('language');
+            const browserLang = navigator.language.split('-')[0];
+            
+            if (savedLang) {
+                 setLanguage(savedLang);
+            } else if (browserLang === 'en') {
+                setLanguage('en');
+            } else {
+                setLanguage('es');
+            }
+        });
     </script>
 
 </body>

@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Frank Mercado Fit - Coach Online</title>
+    <link rel="icon" type="image/jpeg" href="images/favicon.jpg">
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Fonts: Inter -->
@@ -51,8 +52,8 @@
     <header class="bg-white shadow-sm sticky top-0 z-50">
         <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
             <a href="index.html" class="text-2xl font-bold text-gray-900">Frank Mercado <span class="text-blue-600">Fit</span></a>
-            <div class="flex items-center space-x-5">
-                <a href="planes.html" data-key="navPlanes" class="text-gray-600 font-semibold hover:text-blue-600 transition-colors duration-300">Planes</a>
+            <div class="flex items-center space-x-2 md:space-x-5">
+                <a href="planes.html" data-key="navPlanes" class="hidden md:inline-block text-gray-600 font-semibold hover:text-blue-600 transition-colors duration-300">Planes</a>
                 <div class="flex items-center space-x-2 border border-gray-200 rounded-full p-1">
                     <button id="lang-es" class="lang-btn">ES</button>
                     <button id="lang-en" class="lang-btn">EN</button>
@@ -75,7 +76,8 @@
                 <div class="text-center lg:text-left">
                     <h1 data-key="heroTitle" class="text-4xl lg:text-6xl font-black text-gray-900 leading-tight mb-4 fade-in">Transforma tu Físico. <br>Transforma tu Vida.</h1>
                     <p data-key="heroSubtitle" class="text-lg lg:text-xl text-gray-600 mb-8 fade-in delay-1">Resultados reales, sin dietas extremas. Alcanza tus objetivos con un plan diseñado exclusivamente para ti.</p>
-                    <a href="#plan-personalizado" data-key="heroButton" class="inline-block bg-blue-600 text-white font-bold text-lg px-8 py-4 rounded-lg shadow-lg uppercase tracking-wider transition-all duration-300 ease-in-out hover:bg-blue-700 hover:shadow-xl hover:-translate-y-1 transform fade-in delay-2">
+                    <!-- CAMBIO: El botón ahora apunta a la nueva página del formulario -->
+                    <a href="formulario.html" data-key="heroButton" class="inline-block bg-blue-600 text-white font-bold text-lg px-8 py-4 rounded-lg shadow-lg uppercase tracking-wider transition-all duration-300 ease-in-out hover:bg-blue-700 hover:shadow-xl hover:-translate-y-1 transform fade-in delay-2">
                         Obtener Mi Plan Gratuito
                     </a>
                 </div>
@@ -145,7 +147,8 @@
                             <p data-key="ctaNote" class="text-gray-500 text-sm">El formulario te tomará solo 5 minutos. Es tu primera inversión en un cambio que durará toda la vida.</p>
                         </div>
                         <div class="mt-8 lg:mt-0 flex-shrink-0">
-                             <a href="https://docs.google.com/forms/d/e/1FAIpQLSdvg6EZ4p0XrJ9o5XuDm-d6y_qxT-hU1LqJLiV7HIJ_azpsZg/viewform?usp=header" target="_blank" data-key="ctaButton" class="w-full lg:w-auto inline-block bg-blue-600 text-white font-bold text-lg px-8 py-5 rounded-lg shadow-lg transition-all duration-300 ease-in-out hover:bg-blue-700 hover:shadow-xl hover:-translate-y-1 transform">
+                             <!-- CAMBIO: El botón ahora apunta a la nueva página del formulario -->
+                             <a href="formulario.html" data-key="ctaButton" class="w-full lg:w-auto inline-block bg-blue-600 text-white font-bold text-lg px-8 py-5 rounded-lg shadow-lg transition-all duration-300 ease-in-out hover:bg-blue-700 hover:shadow-xl hover:-translate-y-1 transform">
                                 ¡Sí, Quiero Mi Plan Gratis!
                             </a>
                         </div>

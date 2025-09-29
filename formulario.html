@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cuestionario M-Fit™ - Frank Mercado Fit</title>
+    <link rel="icon" type="image/jpeg" href="images/favicon.jpg">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8;
+        }
+        .form-input, .form-select, .form-textarea {
+            transition: all 0.3s ease-in-out;
+        }
+        .form-input:focus, .form-select:focus, .form-textarea:focus {
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.5);
+            border-color: #3b82f6;
+        }
+        .scale-10-label {
+            min-width: 2rem;
+            height: 2rem;
+            cursor: pointer;
+            border: 1px solid #d1d5db;
+        }
+        .scale-10-input:checked + .scale-10-label {
+            background-color: #3b82f6;
+            color: white;
+            border-color: #3b82f6;
+        }
+        .error-message {
+            display: none;
+        }
+        .form-group.error .error-message {
+            display: block;
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <header class="bg-white shadow-sm">
+        <nav class="container mx-auto px-6 py-4 flex justify-center items-center">
+            <a href="index.html" class="text-2xl font-bold text-gray-900">Frank Mercado <span class="text-blue-600">Fit</span></a>
+        </nav>
+    </header>
+
+    <main class="py-12 md:py-20">
+        <div class="container mx-auto px-6">
+            <div class="max-w-3xl mx-auto bg-white p-8 md:p-12 rounded-2xl shadow-lg">
+                <h1 data-key="formTitle" class="text-3xl md:text-4xl font-black text-center mb-2">Cuestionario de Valoración Fitness</h1>
+                <p data-key="formWelcome" class="text-gray-600 text-center mb-4">¡Bienvenido/a! Estás a un paso de recibir tu plan personalizado. Las siguientes preguntas son esenciales para diseñar un Sistema M-Fit™ 100% adaptado a ti.</p>
+                <p data-key="formRequired" class="text-sm text-center text-gray-500 mb-8">Las preguntas con <span class="text-red-500 font-bold">*</span> son obligatorias.</p>
+
+                <form id="mfit-form" name="cuestionario-mfit" method="POST" data-netlify="true" action="/success.html" novalidate>
+                    <input type="hidden" name="form-name" value="cuestionario-mfit" />
+
+                    <div class="space-y-10">
+                        <!-- SECCIÓN 1 -->
+                        <div>
+                            <h2 class="text-xl font-bold border-b pb-2 mb-6" data-key="s1Title">Sección 1: Información Básica y Objetivos</h2>
+                            <div class="space-y-6">
+                                <div class="form-group">
+                                    <label for="nombre" class="block text-sm font-semibold text-gray-700 mb-2"><span data-key="s1f1">Nombre Completo:</span> <span class="text-red-500">*</span></label>
+                                    <input type="text" name="nombre_completo" id="nombre" class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg" required>
+                                    <span class="text-red-500 text-sm error-message" data-key="errorMsg">Debes completar este campo.</span>
+                                </div>
+                                <div class="form-group">
+                                    <label for="email" class="block text-sm font-semibold text-gray-700 mb-2"><span data-key="s1f2">Tu Mejor Correo Electrónico:</span> <span class="text-red-500">*</span></label>
+                                    <input type="email" name="email" id="email" class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg" required>
+                                    <span class="text-red-500 text-sm error-message" data-key="errorMsg">Debes completar este campo.</span>
+                                </div>
+                                <div class="form-group">
+                                    <label for="whatsapp" class="block text-sm font-semibold text-gray-700 mb-2" data-key="s1f3">Número de WhatsApp (Opcional):</label>
+                                    <input type="tel" name="whatsapp" id="whatsapp" class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg">
+                                </div>
+                                <div class="form-group">
+                                    <label class="block text-sm font-semibold text-gray-700 mb-2"><span data-key="s1f4">¿Cuál es tu objetivo principal?</span> <span class="text-red-500">*</span></label>
+                                    <div class="space-y-2">
+                                        <label class="flex items-center"><input type="radio" name="objetivo_principal" value="Perder grasa / Definir" class="mr-2" required><span data-key="s1f4o1">Perder grasa / Definir</span></label>
+                                        <label class="flex items-center"><input type="radio" name="objetivo_principal" value="Ganar masa muscular" class="mr-2"><span data-key="s1f4o2">Ganar masa muscular</span></label>
+                                        <label class="flex items-center"><input type="radio" name="objetivo_principal" value="Recomposición Corporal" class="mr-2"><span data-key="s1f4o3">Recomposición Corporal (Ganar músculo y perder grasa a la vez)</span></label>
+                                        <label class="flex items-center"><input type="radio" name="objetivo_principal" value="Mejorar salud y hábitos" class="mr-2"><span data-key="s1f4o4">Mejorar mi salud y hábitos en general</span></label>
+                                        <label class="flex items-center"><input type="radio" name="objetivo_principal" value="Otro" class="mr-2"><span data-key="s1f4o5">Otro</span></label>
+                                    </div>
+                                    <span class="text-red-500 text-sm error-message" data-key="errorMsg">Debes completar este campo.</span>
+                                </div>
+                                <div class="form-group">
+                                    <label class="block text-sm font-semibold text-gray-700 mb-2"><span data-key="s1f5">Del 1 al 10, ¿qué tan comprometido/a te sientes para empezar AHORA?</span> <span class="text-red-500">*</span></label>
+                                    <div class="flex flex-wrap gap-2">
+                                        <input type="radio" id="comp1" name="compromiso" value="1" class="sr-only scale-10-input" required><label for="comp1" class="scale-10-label flex items-center justify-center rounded-md font-bold">1</label>
+                                        <input type="radio" id="comp2" name="compromiso" value="2" class="sr-only scale-10-input"><label for="comp2" class="scale-10-label flex items-center justify-center rounded-md font-bold">2</label>
+                                        <input type="radio" id="comp3" name="compromiso" value="3" class="sr-only scale-10-input"><label for="comp3" class="scale-10-label flex items-center justify-center rounded-md font-bold">3</label>
+                                        <input type="radio" id="comp4" name="compromiso" value="4" class="sr-only scale-10-input"><label for="comp4" class="scale-10-label flex items-center justify-center rounded-md font-bold">4</label>
+                                        <input type="radio" id="comp5" name="compromiso" value="5" class="sr-only scale-10-input"><label for="comp5" class="scale-10-label flex items-center justify-center rounded-md font-bold">5</label>
+                                        <input type="radio" id="comp6" name="compromiso" value="6" class="sr-only scale-10-input"><label for="comp6" class="scale-10-label flex items-center justify-center rounded-md font-bold">6</label>
+                                        <input type="radio" id="comp7" name="compromiso" value="7" class="sr-only scale-10-input"><label for="comp7" class="scale-10-label flex items-center justify-center rounded-md font-bold">7</label>
+                                        <input type="radio" id="comp8" name="compromiso" value="8" class="sr-only scale-10-input"><label for="comp8" class="scale-10-label flex items-center justify-center rounded-md font-bold">8</label>
+                                        <input type="radio" id="comp9" name="compromiso" value="9" class="sr-only scale-10-input"><label for="comp9" class="scale-10-label flex items-center justify-center rounded-md font-bold">9</label>
+                                        <input type="radio" id="comp10" name="compromiso" value="10" class="sr-only scale-10-input"><label for="comp10" class="scale-10-label flex items-center justify-center rounded-md font-bold">10</label>
+                                    </div>
+                                    <span class="text-red-500 text-sm error-message" data-key="errorMsg">Debes completar este campo.</span>
+                                </div>
+                                <div class="form-group">
+                                    <label for="porque_objetivo" class="block text-sm font-semibold text-gray-700 mb-2" data-key="s1f6">Describe brevemente por qué quieres lograr este objetivo:</label>
+                                    <textarea name="porque_objetivo" id="porque_objetivo" rows="3" class="form-textarea w-full px-4 py-3 border border-gray-300 rounded-lg" data-key-placeholder="s1f6p"></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- SECCIÓN 2 -->
+                        <div>
+                            <h2 class="text-xl font-bold border-b pb-2 mb-6" data-key="s2Title">Sección 2: Tu Punto de Partida</h2>
+                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div class="form-group">
+                                    <label for="edad" class="block text-sm font-semibold text-gray-700 mb-2"><span data-key="s2f1">Edad:</span> <span class="text-red-500">*</span></label>
+                                    <input type="number" name="edad" id="edad" class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg" required>
+                                    <span class="text-red-500 text-sm error-message" data-key="errorMsg">Debes completar este campo.</span>
+                                </div>
+                                <div class="form-group">
+                                    <label class="block text-sm font-semibold text-gray-700 mb-2"><span data-key="s2f2">Sexo Biológico:</span> <span class="text-red-500">*</span></label>
+                                    <select name="sexo_biologico" class="form-select w-full px-4 py-3 border border-gray-300 rounded-lg" required>
+                                        <option value="" data-key="selectOpt">Selecciona...</option>
+                                        <option value="Masculino" data-key="generoMasc">Masculino</option>
+                                        <option value="Femenino" data-key="generoFem">Femenino</option>
+                                    </select>
+                                    <span class="text-red-500 text-sm error-message" data-key="errorMsg">Debes completar este campo.</span>
+                                </div>
+                                <div class="form-group">
+                                    <label for="estatura" class="block text-sm font-semibold text-gray-700 mb-2"><span data-key="s2f3">Altura (en cm):</span> <span class="text-red-500">*</span></label>
+                                    <input type="text" inputmode="decimal" name="altura_cm" id="estatura" class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg" required>
+                                     <span class="text-red-500 text-sm error-message" data-key="errorMsg">Debes completar este campo.</span>
+                                </div>
+                               <div class="form-group">
+                                    <label for="peso" class="block text-sm font-semibold text-gray-700 mb-2"><span data-key="s2f4">Peso Actual (en kg):</span> <span class="text-red-500">*</span></label>
+                                    <input type="text" inputmode="decimal" name="peso_kg" id="peso" class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg" required>
+                                    <span class="text-red-500 text-sm error-message" data-key="errorMsg">Debes completar este campo.</span>
+                                </div>
+                                <div class="form-group">
+                                    <label for="peso_deseado" class="block text-sm font-semibold text-gray-700 mb-2" data-key="s2f5">Peso Deseado (en kg):</label>
+                                    <input type="text" inputmode="decimal" name="peso_deseado_kg" id="peso_deseado" class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg">
+                                </div>
+                                <div class="form-group">
+                                    <label for="cintura" class="block text-sm font-semibold text-gray-700 mb-2" data-key="s2f6">Medida de Cintura en cm (Opcional):</label>
+                                    <input type="text" inputmode="decimal" name="cintura_cm" id="cintura" class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- SECCIÓN 3 -->
+                        <div>
+                            <h2 class="text-xl font-bold border-b pb-2 mb-6" data-key="s3Title">Sección 3: Tu Estilo de Vida</h2>
+                            <div class="space-y-6">
+                                <div class="form-group">
+                                    <label for="ocupacion" class="block text-sm font-semibold text-gray-700 mb-2" data-key="s3f1">Describe brevemente tu ocupación:</label>
+                                    <input type="text" name="ocupacion" id="ocupacion" class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg">
+                                </div>
+                                <div class="form-group">
+                                    <label class="block text-sm font-semibold text-gray-700 mb-2"><span data-key="s3f2">Nivel de actividad DIARIA (sin contar ejercicio):</span> <span class="text-red-500">*</span></label>
+                                    <div class="space-y-2">
+                                        <label class="flex items-center"><input type="radio" name="actividad_diaria" value="Sedentario" class="mr-2" required><span data-key="s3f2o1">Sedentario (trabajo de oficina, poco movimiento)</span></label>
+                                        <label class="flex items-center"><input type="radio" name="actividad_diaria" value="Ligero" class="mr-2"><span data-key="s3f2o2">Ligero (caminatas ocasionales, de pie parte del día)</span></label>
+                                        <label class="flex items-center"><input type="radio" name="actividad_diaria" value="Activo" class="mr-2"><span data-key="s3f2o3">Activo (trabajo físico, camino o me muevo mucho)</span></label>
+                                        <label class="flex items-center"><input type="radio" name="actividad_diaria" value="Muy Activo" class="mr-2"><span data-key="s3f2o4">Muy Activo (trabajo físico intenso, atleta)</span></label>
+                                    </div>
+                                    <span class="text-red-500 text-sm error-message" data-key="errorMsg">Debes completar este campo.</span>
+                                </div>
+                                <div class="form-group">
+                                    <label class="block text-sm font-semibold text-gray-700 mb-2" data-key="s3f3">¿Cuántas horas duermes por noche en promedio?</label>
+                                    <select name="horas_sueno" class="form-select w-full px-4 py-3 border border-gray-300 rounded-lg">
+                                        <option value="">Selecciona...</option>
+                                        <option value="Menos de 5">Menos de 5 horas</option>
+                                        <option value="5-6">5-6 horas</option>
+                                        <option value="6-7">6-7 horas</option>
+                                        <option value="7-8">7-8 horas</option>
+                                        <option value="Mas de 8">Más de 8 horas</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="block text-sm font-semibold text-gray-700 mb-2" data-key="s3f4">Del 1 al 10, ¿cómo calificarías tu nivel de estrés promedio?</label>
+                                    <div class="flex flex-wrap gap-2">
+                                        <input type="radio" id="estres1" name="nivel_estres" value="1" class="sr-only scale-10-input"><label for="estres1" class="scale-10-label flex items-center justify-center rounded-md font-bold">1</label>
+                                        <input type="radio" id="estres2" name="nivel_estres" value="2" class="sr-only scale-10-input"><label for="estres2" class="scale-10-label flex items-center justify-center rounded-md font-bold">2</label>
+                                        <input type="radio" id="estres3" name="nivel_estres" value="3" class="sr-only scale-10-input"><label for="estres3" class="scale-10-label flex items-center justify-center rounded-md font-bold">3</label>
+                                        <input type="radio" id="estres4" name="nivel_estres" value="4" class="sr-only scale-10-input"><label for="estres4" class="scale-10-label flex items-center justify-center rounded-md font-bold">4</label>
+                                        <input type="radio" id="estres5" name="nivel_estres" value="5" class="sr-only scale-10-input"><label for="estres5" class="scale-10-label flex items-center justify-center rounded-md font-bold">5</label>
+                                        <input type="radio" id="estres6" name="nivel_estres" value="6" class="sr-only scale-10-input"><label for="estres6" class="scale-10-label flex items-center justify-center rounded-md font-bold">6</label>
+                                        <input type="radio" id="estres7" name="nivel_estres" value="7" class="sr-only scale-10-input"><label for="estres7" class="scale-10-label flex items-center justify-center rounded-md font-bold">7</label>
+                                        <input type="radio" id="estres8" name="nivel_estres" value="8" class="sr-only scale-10-input"><label for="estres8" class="scale-10-label flex items-center justify-center rounded-md font-bold">8</label>
+                                        <input type="radio" id="estres9" name="nivel_estres" value="9" class="sr-only scale-10-input"><label for="estres9" class="scale-10-label flex items-center justify-center rounded-md font-bold">9</label>
+                                        <input type="radio" id="estres10" name="nivel_estres" value="10" class="sr-only scale-10-input"><label for="estres10" class="scale-10-label flex items-center justify-center rounded-md font-bold">10</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- SECCIÓN 4 -->
+                        <div>
+                            <h2 class="text-xl font-bold border-b pb-2 mb-6" data-key="s4Title">Sección 4: Hábitos de Nutrición</h2>
+                            <div class="space-y-6">
+                                <div class="form-group">
+                                    <label for="alergias" class="block text-sm font-semibold text-gray-700 mb-2"><span data-key="s4f1">¿Tienes alguna alergia, intolerancia o condición médica relevante?</span> <span class="text-red-500">*</span></label>
+                                    <input type="text" name="alergias_condiciones" id="alergias" class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg" required data-key-placeholder="s4f1p">
+                                    <span class="text-red-500 text-sm error-message" data-key="errorMsg">Debes completar este campo.</span>
+                                </div>
+                                <div class="form-group">
+                                    <label class="block text-sm font-semibold text-gray-700 mb-2" data-key="s4f2">¿Sigues alguna preferencia dietética?</label>
+                                    <div class="space-y-2">
+                                        <label class="flex items-center"><input type="radio" name="dieta_preferencia" value="Ninguna" class="mr-2"><span data-key="s4f2o1">Ninguna</span></label>
+                                        <label class="flex items-center"><input type="radio" name="dieta_preferencia" value="Vegetariana" class="mr-2"><span data-key="s4f2o2">Vegetariana</span></label>
+                                        <label class="flex items-center"><input type="radio" name="dieta_preferencia" value="Vegana" class="mr-2"><span data-key="s4f2o3">Vegana</span></label>
+                                        <label class="flex items-center"><input type="radio" name="dieta_preferencia" value="Pescetariana" class="mr-2"><span data-key="s4f2o4">Pescetariana</span></label>
+                                        <label class="flex items-center"><input type="radio" name="dieta_preferencia" value="Otro" class="mr-2"><span data-key="s4f2o5">Otro</span></label>
+                                    </div>
+                                </div>
+                                 <div class="form-group">
+                                    <label class="block text-sm font-semibold text-gray-700 mb-2" data-key="s4f3">¿Cuántas comidas principales haces al día?</label>
+                                    <select name="numero_comidas" class="form-select w-full px-4 py-3 border border-gray-300 rounded-lg">
+                                        <option value="">Selecciona...</option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5 o mas">5 o más</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="block text-sm font-semibold text-gray-700 mb-2"><span data-key="s4f4">Marca los grupos de alimentos que MÁS te gustan:</span> <span class="text-red-500">*</span></label>
+                                    <div class="grid grid-cols-2 md:grid-cols-3 gap-2">
+                                        <label class="flex items-center"><input type="checkbox" name="alimentos_favoritos[]" value="Pollo" class="mr-2"> <span data-key="s4f4o1">Pollo</span></label>
+                                        <label class="flex items-center"><input type="checkbox" name="alimentos_favoritos[]" value="Carne roja" class="mr-2"> <span data-key="s4f4o2">Carne roja</span></label>
+                                        <label class="flex items-center"><input type="checkbox" name="alimentos_favoritos[]" value="Pescado" class="mr-2"> <span data-key="s4f4o3">Pescado</span></label>
+                                        <label class="flex items-center"><input type="checkbox" name="alimentos_favoritos[]" value="Huevos" class="mr-2"> <span data-key="s4f4o4">Huevos</span></label>
+                                        <label class="flex items-center"><input type="checkbox" name="alimentos_favoritos[]" value="Lácteos" class="mr-2"> <span data-key="s4f4o5">Lácteos</span></label>
+                                        <label class="flex items-center"><input type="checkbox" name="alimentos_favoritos[]" value="Legumbres" class="mr-2"> <span data-key="s4f4o6">Legumbres</span></label>
+                                        <label class="flex items-center"><input type="checkbox" name="alimentos_favoritos[]" value="Vegetales" class="mr-2"> <span data-key="s4f4o7">Vegetales</span></label>
+                                        <label class="flex items-center"><input type="checkbox" name="alimentos_favoritos[]" value="Frutas" class="mr-2"> <span data-key="s4f4o8">Frutas</span></label>
+                                        <label class="flex items-center"><input type="checkbox" name="alimentos_favoritos[]" value="Grasas saludables" class="mr-2"> <span data-key="s4f4o9">Grasas saludables</span></label>
+                                    </div>
+                                    <span class="text-red-500 text-sm error-message" data-key="errorMsg">Debes completar este campo.</span>
+                                </div>
+                                <div class="form-group">
+                                    <label for="alimentos_odiados" class="block text-sm font-semibold text-gray-700 mb-2" data-key="s4f5">¿Hay algún alimento que ODIAS?</label>
+                                    <input type="text" name="alimentos_odiados" id="alimentos_odiados" class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg">
+                                </div>
+                                <div class="form-group">
+                                    <label for="bebidas" class="block text-sm font-semibold text-gray-700 mb-2" data-key="s4f6">¿Qué sueles beber además de agua?</label>
+                                    <input type="text" name="otras_bebidas" id="bebidas" class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg" data-key-placeholder="s4f6p">
+                                </div>
+                                <div class="form-group">
+                                    <label class="block text-sm font-semibold text-gray-700 mb-2" data-key="s4f7">Respecto al consumo de alcohol, ¿cuál describe mejor tu hábito?</label>
+                                     <select name="consumo_alcohol" class="form-select w-full px-4 py-3 border border-gray-300 rounded-lg">
+                                        <option value="">Selecciona...</option>
+                                        <option value="No consumo" data-key="s4f7o1">No consumo</option>
+                                        <option value="Ocasionalmente (1-2 veces al mes)" data-key="s4f7o2">Ocasionalmente (1-2 veces al mes)</option>
+                                        <option value="Socialmente (fines de semana)" data-key="s4f7o3">Socialmente (fines de semana)</option>
+                                        <option value="Frecuentemente (varias veces por semana)" data-key="s4f7o4">Frecuentemente (varias veces por semana)</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="block text-sm font-semibold text-gray-700 mb-2" data-key="s4f8">¿Con qué frecuencia sueles comer fuera de casa?</label>
+                                     <select name="comer_fuera" class="form-select w-full px-4 py-3 border border-gray-300 rounded-lg">
+                                        <option value="">Selecciona...</option>
+                                        <option value="Rara vez (casi nunca)" data-key="s4f8o1">Rara vez (casi nunca)</option>
+                                        <option value="1-2 veces por semana" data-key="s4f8o2">1-2 veces por semana</option>
+                                        <option value="3-5 veces por semana" data-key="s4f8o3">3-5 veces por semana</option>
+                                        <option value="Casi a diario" data-key="s4f8o4">Casi a diario</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- SECCIÓN 5 -->
+                        <div>
+                             <h2 class="text-xl font-bold border-b pb-2 mb-6" data-key="s5Title">Sección 5: Experiencia de Entrenamiento</h2>
+                             <div class="space-y-6">
+                                <div class="form-group">
+                                    <label class="block text-sm font-semibold text-gray-700 mb-2"><span data-key="s5f1">¿Cuál es tu nivel de experiencia entrenando?</span> <span class="text-red-500">*</span></label>
+                                    <select name="experiencia_entrenamiento" class="form-select w-full px-4 py-3 border border-gray-300 rounded-lg" required>
+                                        <option value="" data-key="selectOpt">Selecciona...</option>
+                                        <option value="Principiante" data-key="expOpt1">Principiante (Nunca he entrenado o muy poco)</option>
+                                        <option value="Intermedio" data-key="expOpt2">Intermedio (Llevo entrenando consistentemente 6+ meses)</option>
+                                        <option value="Avanzado" data-key="expOpt3">Avanzado (Llevo años entrenando)</option>
+                                    </select>
+                                    <span class="text-red-500 text-sm error-message" data-key="errorMsg">Debes completar este campo.</span>
+                                </div>
+                                <div class="form-group">
+                                    <label class="block text-sm font-semibold text-gray-700 mb-2"><span data-key="s5f2">¿Dónde vas a entrenar?</span> <span class="text-red-500">*</span></label>
+                                    <select name="lugar_entrenamiento" class="form-select w-full px-4 py-3 border border-gray-300 rounded-lg" required>
+                                        <option value="" data-key="selectOpt">Selecciona...</option>
+                                        <option value="Gimnasio" data-key="s5f2o1">Gimnasio / Gym</option>
+                                        <option value="Casa" data-key="s5f2o2">En Casa</option>
+                                    </select>
+                                    <span class="text-red-500 text-sm error-message" data-key="errorMsg">Debes completar este campo.</span>
+                                </div>
+                                 <div class="form-group">
+                                    <label class="block text-sm font-semibold text-gray-700 mb-2" data-key="s5f3">Si entrenas en casa, ¿qué equipamiento tienes?</label>
+                                    <div class="grid grid-cols-2 gap-2">
+                                        <label class="flex items-center"><input type="checkbox" name="equipamiento[]" value="Mancuernas" class="mr-2"><span data-key="s5f3o1">Mancuernas</span></label>
+                                        <label class="flex items-center"><input type="checkbox" name="equipamiento[]" value="Bandas de resistencia" class="mr-2"><span data-key="s5f3o2">Bandas de resistencia</span></label>
+                                        <label class="flex items-center"><input type="checkbox" name="equipamiento[]" value="Kettlebell" class="mr-2"><span data-key="s5f3o3">Kettlebell</span></label>
+                                        <label class="flex items-center"><input type="checkbox" name="equipamiento[]" value="Barra y discos" class="mr-2"><span data-key="s5f3o4">Barra y discos</span></label>
+                                        <label class="flex items-center"><input type="checkbox" name="equipamiento[]" value="Solo peso corporal" class="mr-2"><span data-key="s5f3o5">Solo peso corporal</span></label>
+                                        <label class="flex items-center"><input type="checkbox" name="equipamiento[]" value="Otro" class="mr-2"><span data-key="s5f3o6">Otro</span></label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="equipamiento_pesos" class="block text-sm font-semibold text-gray-700 mb-2" data-key="s5f4">Si tienes mancuernas/kettlebell, especifica los pesos:</label>
+                                    <input type="text" name="equipamiento_pesos" id="equipamiento_pesos" class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg">
+                                </div>
+                                <div class="form-group">
+                                    <label for="dias_semana" class="block text-sm font-semibold text-gray-700 mb-2"><span data-key="s5f5">¿Cuántos días A LA SEMANA puedes comprometerte a entrenar?</span> <span class="text-red-500">*</span></label>
+                                    <select name="dias_por_semana" id="dias_semana" class="form-select w-full px-4 py-3 border border-gray-300 rounded-lg" required>
+                                        <option value="" data-key="selectOpt">Selecciona...</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                        <option value="6">6</option>
+                                    </select>
+                                    <span class="text-red-500 text-sm error-message" data-key="errorMsg">Debes completar este campo.</span>
+                                </div>
+                                <div class="form-group">
+                                    <label for="tiempo_sesion" class="block text-sm font-semibold text-gray-700 mb-2"><span data-key="s5f6">¿Cuánto tiempo tienes disponible POR SESIÓN?</span> <span class="text-red-500">*</span></label>
+                                    <select name="tiempo_por_sesion" id="tiempo_sesion" class="form-select w-full px-4 py-3 border border-gray-300 rounded-lg" required>
+                                        <option value="" data-key="selectOpt">Selecciona...</option>
+                                        <option value="30-45 min" data-key="s5f6o1">30-45 minutos</option>
+                                        <option value="45-60 min" data-key="s5f6o2">45-60 minutos</option>
+                                        <option value="60-90 min" data-key="s5f6o3">60-90 minutos</option>
+                                        <option value="90+ min" data-key="s5f6o4">Más de 90 minutos</option>
+                                    </select>
+                                    <span class="text-red-500 text-sm error-message" data-key="errorMsg">Debes completar este campo.</span>
+                                </div>
+                                <div class="form-group">
+                                    <label for="lesiones" class="block text-sm font-semibold text-gray-700 mb-2"><span data-key="s5f7">¿Tienes alguna lesión (pasada o presente)?</span> <span class="text-red-500">*</span></label>
+                                    <textarea name="lesiones" id="lesiones" rows="3" class="form-textarea w-full px-4 py-3 border border-gray-300 rounded-lg" required data-key-placeholder="placeholderLesiones"></textarea>
+                                    <span class="text-red-500 text-sm error-message" data-key="errorMsg">Debes completar este campo.</span>
+                                </div>
+                                <div class="form-group">
+                                    <label for="comentarios_finales" class="block text-sm font-semibold text-gray-700 mb-2" data-key="s5f8">¿Hay algo más que crees que debería saber?</label>
+                                    <textarea name="comentarios_finales" id="comentarios_finales" rows="3" class="form-textarea w-full px-4 py-3 border border-gray-300 rounded-lg" data-key-placeholder="s5f8p"></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="mt-10 text-center">
+                        <button type="submit" data-key="btnEnviar" class="w-full md:w-auto inline-block bg-blue-600 text-white font-bold text-lg px-12 py-4 rounded-lg shadow-lg uppercase tracking-wider transition-all duration-300 ease-in-out hover:bg-blue-700 hover:shadow-xl hover:-translate-y-1 transform">
+                            Enviar Mi Cuestionario
+                        </button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-gray-800 text-white py-8 mt-12 md:mt-20">
+        <div class="container mx-auto px-6 text-center">
+            <p data-key="footerRights" class="text-sm text-gray-400">&copy; <span id="year"></span> Frank Mercado Fit. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // --- VALIDATION SCRIPT ---
+        const form = document.getElementById('mfit-form');
+        form.addEventListener('submit', function(event) {
+            if (!validateForm()) {
+                event.preventDefault();
+                const firstError = form.querySelector('.form-group.error');
+                if (firstError) {
+                    firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            }
+        });
+
+        function validateForm() {
+            let isValid = true;
+            const requiredFields = form.querySelectorAll('[required]');
+            
+            // Hide all error messages first
+            form.querySelectorAll('.form-group').forEach(group => group.classList.remove('error'));
+
+            requiredFields.forEach(field => {
+                const group = field.closest('.form-group');
+                let isFieldValid = true;
+
+                if (field.type === 'radio' || field.type === 'checkbox') {
+                    const fieldGroup = form.querySelectorAll(`input[name="${field.name}"]`);
+                    if (![...fieldGroup].some(f => f.checked)) {
+                        isFieldValid = false;
+                    }
+                } else if (field.value.trim() === '') {
+                    isFieldValid = false;
+                }
+
+                if (!isFieldValid) {
+                    isValid = false;
+                    if(group) group.classList.add('error');
+                }
+            });
+            return isValid;
+        }
+
+        // --- TRANSLATION SCRIPT ---
+        const translations = {
+            en: {
+                formTitle: "Fitness Assessment Questionnaire",
+                formWelcome: "Welcome! You are one step away from receiving your personalized plan. The following questions are essential to design a M-Fit™ System 100% adapted to you.",
+                formRequired: "Questions with <span class='text-red-500 font-bold'>*</span> are required.",
+                errorMsg: "This field is required.",
+                selectOpt: "Select...",
+                
+                s1Title: "Section 1: Basic Information and Goals",
+                s1f1: "Full Name:", s1f2: "Your Best Email Address:", s1f3: "WhatsApp Number (Optional):",
+                s1f4: "What is your main goal?", s1f4o1: "Lose fat / Get defined", s1f4o2: "Gain muscle mass", s1f4o3: "Body Recomposition", s1f4o4: "Improve my overall health and habits", s1f4o5: "Other",
+                s1f5: "From 1 to 10, how committed do you feel to start NOW?",
+                s1f6: "Briefly describe why you want to achieve this goal:", s1f6p: "E.g., 'I want to feel more confident'",
+
+                s2Title: "Section 2: Your Starting Point",
+                s2f1: "Age:", s2f2: "Biological Sex:", generoMasc: "Male", generoFem: "Female",
+                s2f3: "Height (cm):", s2f4: "Current Weight (kg):", s2f5: "Goal Weight (kg):", s2f6: "Waist Measurement (cm, Optional):",
+
+                s3Title: "Section 3: Your Lifestyle",
+                s3f1: "Briefly describe your occupation:",
+                s3f2: "DAILY activity level (not including exercise):", s3f2o1: "Sedentary (office job, little movement)", s3f2o2: "Light (occasional walks, standing part of the day)", s3f2o3: "Active (physical job, walk or move a lot)", s3f2o4: "Very Active (intense physical labor, athlete)",
+                s3f3: "How many hours do you sleep per night on average?",
+                s3f4: "From 1 to 10, how would you rate your average stress level?",
+
+                s4Title: "Section 4: Nutrition Habits",
+                s4f1: "Do you have any relevant allergies, intolerances, or medical conditions?", s4f1p: "E.g., Lactose intolerance, nut allergy, etc.",
+                s4f2: "Do you follow any dietary preferences?", s4f2o1: "None", s4f2o2: "Vegetarian", s4f2o3: "Vegan", s4f2o4: "Pescatarian", s4f2o5: "Other",
+                s4f3: "How many main meals do you currently eat per day?",
+                s4f4: "Check the food groups you MOST enjoy and usually consume:", s4f4o1: "Chicken", s4f4o2: "Red meat", s4f4o3: "Fish", s4f4o4: "Eggs", s4f4o5: "Dairy", s4f4o6: "Legumes", s4f4o7: "Vegetables", s4f4o8: "Fruits", s4f4o9: "Healthy fats",
+                s4f5: "Are there any foods you HATE?",
+                s4f6: "What do you usually drink besides water?", s4f6p: "E.g., Sodas, juices, coffee with sugar, etc.",
+                s4f7: "Regarding alcohol consumption, which best describes your habit?", s4f7o1: "I don't drink", s4f7o2: "Occasionally (1-2 times a month)", s4f7o3: "Socially (weekends)", s4f7o4: "Frequently (several times a week)",
+                s4f8: "How often do you eat out?", s4f8o1: "Rarely (almost never)", s4f8o2: "1-2 times a week", s4f8o3: "3-5 times a week", s4f8o4: "Almost daily",
+
+                s5Title: "Section 5: Training Experience",
+                s5f1: "What is your training experience level?", expOpt1: "Beginner (Never trained or very little)", expOpt2: "Intermediate (6+ months of consistent training)", expOpt3: "Advanced (Years of training)",
+                s5f2: "Where are you going to train?", s5f2o1: "Gym", s5f2o2: "At Home",
+                s5f3: "If you train at home, what equipment do you have?", s5f3o1: "Dumbbells", s5f3o2: "Resistance bands", s5f3o3: "Kettlebell", s5f3o4: "Barbell and plates", s5f3o5: "Bodyweight only", s5f3o6: "Other",
+                s5f4: "If you have dumbbells/kettlebells, specify the weights:",
+                s5f5: "How many days a WEEK can you REALLY commit to training?",
+                s5f6: "How much time do you have available PER session?", s5f6o1: "30-45 minutes", s5f6o2: "45-60 minutes", s5f6o3: "60-90 minutes", s5f6o4: "More than 90 minutes",
+                s5f7: "Do you have any injuries (past or present)?", placeholderLesiones: "If none, write 'None'.",
+                s5f8: "Is there anything else you think I should know?", s5f8p: "Fears, past challenges, etc.",
+                
+                btnEnviar: "Send My Questionnaire",
+                footerRights: `&copy; ${new Date().getFullYear()} Frank Mercado Fit. All rights reserved.`
+            },
+            es: {
+                formTitle: "Cuestionario de Valoración Fitness",
+                formWelcome: "¡Bienvenido/a! Estás a un paso de recibir tu plan personalizado. Las siguientes preguntas son esenciales para diseñar un Sistema M-Fit™ 100% adaptado a ti.",
+                formRequired: "Las preguntas con <span class='text-red-500 font-bold'>*</span> son obligatorias.",
+                errorMsg: "Debes completar este campo.",
+                selectOpt: "Selecciona...",
+
+                s1Title: "Sección 1: Información Básica y Objetivos",
+                s1f1: "Nombre Completo:", s1f2: "Tu Mejor Correo Electrónico:", s1f3: "Número de WhatsApp (Opcional):",
+                s1f4: "¿Cuál es tu objetivo principal?", s1f4o1: "Perder grasa / Definir", s1f4o2: "Ganar masa muscular", s1f4o3: "Recomposición Corporal (Ganar músculo y perder grasa a la vez)", s1f4o4: "Mejorar mi salud y hábitos en general", s1f4o5: "Otro",
+                s1f5: "Del 1 al 10, ¿qué tan comprometido/a te sientes para empezar AHORA?",
+                s1f6: "Describe brevemente por qué quieres lograr este objetivo:", s1f6p: "Ej: 'Quiero sentirme con más confianza'",
+
+                s2Title: "Sección 2: Tu Punto de Partida",
+                s2f1: "Edad:", s2f2: "Sexo Biológico:", generoMasc: "Masculino", generoFem: "Femenino",
+                s2f3: "Altura (en cm):", s2f4: "Peso Actual (en kg):", s2f5: "Peso Deseado (en kg):", s2f6: "Medida de Cintura en cm (Opcional):",
+
+                s3Title: "Sección 3: Tu Estilo de Vida",
+                s3f1: "Describe brevemente tu ocupación:",
+                s3f2: "Nivel de actividad DIARIA (sin contar ejercicio):", s3f2o1: "Sedentario (trabajo de oficina, poco movimiento)", s3f2o2: "Ligero (caminatas ocasionales, de pie parte del día)", s3f2o3: "Activo (trabajo físico, camino o me muevo mucho)", s3f2o4: "Muy Activo (trabajo físico intenso, atleta)",
+                s3f3: "¿Cuántas horas duermes por noche en promedio?",
+                s3f4: "Del 1 al 10, ¿cómo calificarías tu nivel de estrés promedio?",
+
+                s4Title: "Sección 4: Hábitos de Nutrición",
+                s4f1: "¿Tienes alguna alergia, intolerancia o condición médica relevante?", s4f1p: "Ej: Intolerancia a la lactosa, alergia a frutos secos, etc.",
+                s4f2: "¿Sigues alguna preferencia dietética?", s4f2o1: "Ninguna", s4f2o2: "Vegetariana", s4f2o3: "Vegana", s4f2o4: "Pescetariana", s4f2o5: "Otro",
+                s4f3: "¿Cuántas comidas principales haces al día?",
+                s4f4: "Marca los grupos de alimentos que MÁS te gustan:", s4f4o1: "Pollo", s4f4o2: "Carne roja", s4f4o3: "Pescado", s4f4o4: "Huevos", s4f4o5: "Lácteos", s4f4o6: "Legumbres", s4f4o7: "Vegetales", s4f4o8: "Frutas", s4f4o9: "Grasas saludables",
+                s4f5: "¿Hay algún alimento que ODIAS?",
+                s4f6: "¿Qué sueles beber además de agua?", s4f6p: "Ej: Gaseosas, jugos, café con azúcar, etc.",
+                s4f7: "Respecto al consumo de alcohol, ¿cuál describe mejor tu hábito?", s4f7o1: "No consumo", s4f7o2: "Ocasionalmente (1-2 veces al mes)", s4f7o3: "Socialmente (fines de semana)", s4f7o4: "Frecuentemente (varias veces por semana)",
+                s4f8: "¿Con qué frecuencia sueles comer fuera de casa?", s4f8o1: "Rara vez (casi nunca)", s4f8o2: "1-2 veces por semana", s4f8o3: "3-5 veces por semana", s4f8o4: "Casi a diario",
+
+                s5Title: "Sección 5: Experiencia de Entrenamiento",
+                s5f1: "¿Cuál es tu nivel de experiencia entrenando?", expOpt1: "Principiante (Nunca he entrenado o muy poco)", expOpt2: "Intermedio (Llevo entrenando consistentemente 6+ meses)", expOpt3: "Avanzado (Llevo años entrenando)",
+                s5f2: "¿Dónde vas a entrenar?", s5f2o1: "Gimnasio / Gym", s5f2o2: "En Casa",
+                s5f3: "Si entrenas en casa, ¿qué equipamiento tienes?", s5f3o1: "Mancuernas", s5f3o2: "Bandas de resistencia", s5f3o3: "Kettlebell", s5f3o4: "Barra y discos", s5f3o5: "Solo peso corporal", s5f3o6: "Otro",
+                s5f4: "Si tienes mancuernas/kettlebell, especifica los pesos:",
+                s5f5: "Cuántos días A LA SEMANA puedes comprometerte a entrenar?",
+                s5f6: "¿Cuánto tiempo tienes disponible POR SESIÓN?", s5f6o1: "30-45 minutos", s5f6o2: "45-60 minutos", s5f6o3: "60-90 minutos", s5f6o4: "Más de 90 minutos",
+                s5f7: "¿Tienes alguna lesión (pasada o presente)?", placeholderLesiones: "Si no tienes, escribe 'Ninguna'.",
+                s5f8: "¿Hay algo más que crees que debería saber?", s5f8p: "Miedos, desafíos pasados, etc.",
+
+                btnEnviar: "Enviar Mi Cuestionario",
+                footerRights: `&copy; ${new Date().getFullYear()} Frank Mercado Fit. Todos los derechos reservados.`
+            }
+        };
+
+        const setLanguage = (lang) => {
+            document.documentElement.lang = lang;
+            
+            document.querySelectorAll('[data-key]').forEach(el => {
+                const key = el.getAttribute('data-key');
+                if (translations[lang]?.[key]) el.innerHTML = translations[lang][key];
+            });
+
+            document.querySelectorAll('[data-key-placeholder]').forEach(el => {
+                const key = el.getAttribute('data-key-placeholder');
+                if (translations[lang]?.[key]) el.placeholder = translations[lang][key];
+            });
+        };
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedLang = localStorage.getItem('language') || (navigator.language.startsWith('en') ? 'en' : 'es');
+            setLanguage(savedLang);
+        });
+    </script>
+</body>
+</html>
+

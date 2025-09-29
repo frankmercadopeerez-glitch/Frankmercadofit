@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Planes de Coaching - Frank Mercado Fit</title>
+    <!-- CAMBIO: Se actualizó la ruta del favicon para que apunte a la carpeta 'images'. -->
+    <link rel="icon" type="image/jpeg" href="images/favicon.jpg">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -55,8 +57,9 @@
     <header class="bg-white shadow-sm sticky top-0 z-50">
         <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
             <a href="index.html" class="text-2xl font-bold text-gray-900">Frank Mercado <span class="text-blue-600">Fit</span></a>
-            <div class="flex items-center space-x-5">
-                <a href="planes.html" data-key="navPlanes" class="text-blue-600 font-semibold">Planes</a>
+            <div class="flex items-center space-x-2 md:space-x-5">
+                <!-- CAMBIO: El botón de Planes ahora se oculta en pantallas pequeñas (móviles) -->
+                <a href="planes.html" data-key="navPlanes" class="hidden md:inline-block text-blue-600 font-semibold">Planes</a>
                 <div class="flex items-center space-x-2 border border-gray-200 rounded-full p-1">
                     <button id="lang-es" class="lang-btn">ES</button>
                     <button id="lang-en" class="lang-btn">EN</button>
@@ -121,7 +124,8 @@
                     <div class="border rounded-lg p-8 flex flex-col">
                         <h3 data-key="plan1Title" class="text-2xl font-bold mb-2">M-Fit Kickstart</h3>
                         <p data-key="plan1For" class="text-gray-500 mb-6">Para un impulso inicial con guía experta.</p>
-                        <p class="text-5xl font-black mb-6">$199<span class="text-lg font-semibold text-gray-500">.99/mes</span></p>
+                        <!-- CAMBIO: Añadido span con data-key para traducir "/mes" -->
+                        <p class="text-5xl font-black mb-6">$199<span class="text-lg font-semibold text-gray-500">.99<span data-key="perMonth">/mes</span></span></p>
                         <ul class="text-left space-y-4 mb-8 flex-grow">
                             <li data-key="plan1Feat1" class="flex items-center"><svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Plan de entrenamiento personalizado</li>
                             <li data-key="plan1Feat2" class="flex items-center"><svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Plan de nutrición y macros</li>
@@ -134,7 +138,8 @@
                         <div class="absolute top-0 -translate-y-1/2 left-1/2 -translate-x-1/2 bg-blue-600 text-white text-sm font-bold px-4 py-1 rounded-full uppercase" data-key="plan2Popular">Más Popular</div>
                         <h3 data-key="plan2Title" class="text-2xl font-bold mb-2">M-Fit Transformation</h3>
                         <p data-key="plan2For" class="text-gray-500 mb-6">Resultados notables con seguimiento cercano.</p>
-                        <p class="text-5xl font-black mb-6">$349<span class="text-lg font-semibold text-gray-500">.99/mes</span></p>
+                        <!-- CAMBIO: Añadido span con data-key para traducir "/mes" -->
+                        <p class="text-5xl font-black mb-6">$349<span class="text-lg font-semibold text-gray-500">.99<span data-key="perMonth">/mes</span></span></p>
                         <ul class="text-left space-y-4 mb-8 flex-grow">
                            <li data-key="plan2Feat1" class="flex items-center font-bold"><svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Todo lo del plan Kickstart, y:</li>
                            <li data-key="plan2Feat2" class="flex items-center"><svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Soporte por chat (WhatsApp)</li>
@@ -147,7 +152,8 @@
                     <div class="border rounded-lg p-8 flex flex-col">
                         <h3 data-key="plan3Title" class="text-2xl font-bold mb-2">M-Fit Premium</h3>
                         <p data-key="plan3For" class="text-gray-500 mb-6">El servicio más exclusivo y con todo incluido.</p>
-                        <p class="text-5xl font-black mb-6">$599<span class="text-lg font-semibold text-gray-500">.99/mes</span></p>
+                        <!-- CAMBIO: Añadido span con data-key para traducir "/mes" -->
+                        <p class="text-5xl font-black mb-6">$599<span class="text-lg font-semibold text-gray-500">.99<span data-key="perMonth">/mes</span></span></p>
                         <ul class="text-left space-y-4 mb-8 flex-grow">
                             <li data-key="plan3Feat1" class="flex items-center font-bold"><svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Todo lo del plan Transformation, y:</li>
                             <li data-key="plan3Feat2" class="flex items-center"><svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>2 videollamadas al mes (30 min)</li>
@@ -236,7 +242,9 @@
                 plan3Feat3: "Priority chat support",
                 planButton: "Get Started Now",
                 footerConnect: "Connect with me",
-                footerRights: `&copy; ${new Date().getFullYear()} Frank Mercado Fit. All rights reserved.`
+                footerRights: `&copy; ${new Date().getFullYear()} Frank Mercado Fit. All rights reserved.`,
+                // CAMBIO: Añadida la traducción para "/mes"
+                perMonth: "/month"
             },
             es: {
                 navPlanes: "Planes",
@@ -267,7 +275,9 @@
                 plan3Feat3: "Soporte por chat prioritario",
                 planButton: "Empezar Ahora",
                 footerConnect: "Conéctate conmigo",
-                footerRights: `&copy; ${new Date().getFullYear()} Frank Mercado Fit. Todos los derechos reservados.`
+                footerRights: `&copy; ${new Date().getFullYear()} Frank Mercado Fit. Todos los derechos reservados.`,
+                // CAMBIO: Añadida la traducción para "/mes"
+                perMonth: "/mes"
             }
         };
 
@@ -310,6 +320,5 @@
     </script>
 
 </body>
-</html>
 </html>
 

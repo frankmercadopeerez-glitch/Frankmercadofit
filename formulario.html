@@ -130,9 +130,9 @@
                 <p data-key="formWelcome" class="text-gray-600 text-center mb-4">¡Bienvenido/a! Estás a un paso de recibir tu plan personalizado. Las siguientes preguntas son esenciales para diseñar un Sistema M-Fit™ 100% adaptado a ti.</p>
                 <p data-key="formRequired" class="text-sm text-center text-gray-500 mb-8">Las preguntas con <span class="text-red-500 font-bold">*</span> son obligatorias.</p>
                 
-                <!-- CORRECCIÓN APLICADA AQUÍ -->
-                <form id="mfit-form" name="cuestionario-mfit" method="POST" data-netlify="true" action="/success.html" novalidate>
-                    <input type="hidden" name="form-name" value="cuestionario-mfit" />
+                <form id="mfit-form" method="POST" action="https://formspree.io/f/xblzowrj">
+                    
+                    <input type="hidden" name="_next" value="https://fit.frankmercado.com/success">
 
                     <div class="space-y-10">
                         <!-- SECCIÓN 1 -->
@@ -460,9 +460,8 @@
     </footer>
 
     <script>
+        // ... (Todo el JavaScript de validación, traducción y menús desplegables permanece igual) ...
         document.getElementById('year').textContent = new Date().getFullYear();
-
-        // --- SCRIPT DE VALIDACIÓN ---
         const form = document.getElementById('mfit-form');
         form.addEventListener('submit', function(event) {
             if (!validateForm()) {
@@ -473,17 +472,13 @@
                 }
             }
         });
-
         function validateForm() {
             let isValid = true;
             const requiredFields = form.querySelectorAll('[required]');
-            
             form.querySelectorAll('.form-group').forEach(group => group.classList.remove('error'));
-
             requiredFields.forEach(field => {
                 const group = field.closest('.form-group');
                 let isFieldValid = true;
-
                 if (field.type === 'radio' || field.type === 'checkbox') {
                     const fieldGroup = form.querySelectorAll(`input[name="${field.name}"]`);
                     if (![...fieldGroup].some(f => f.checked)) {
@@ -492,7 +487,6 @@
                 } else if (field.value.trim() === '') {
                     isFieldValid = false;
                 }
-
                 if (!isFieldValid) {
                     isValid = false;
                     if(group) group.classList.add('error');
@@ -500,8 +494,6 @@
             });
             return isValid;
         }
-
-        // --- SCRIPT DE TRADUCCIÓN ---
         const translations = {
             en: {
                 formTitle: "Fitness Assessment Questionnaire",
@@ -509,23 +501,19 @@
                 formRequired: "Questions with <span class='text-red-500 font-bold'>*</span> are required.",
                 errorMsg: "This field is required.",
                 selectOpt: "Select...",
-                
                 s1Title: "Section 1: Basic Information and Goals",
                 s1f1: "Full Name:", s1f2: "Your Best Email Address:", s1f3: "WhatsApp Number (Optional):",
                 s1f4: "What is your main goal?", s1f4o1: "Lose fat / Get defined", s1f4o2: "Gain muscle mass", s1f4o3: "Body Recomposition", s1f4o4: "Improve my overall health and habits", s1f4o5: "Other",
                 s1f5: "From 1 to 10, how committed do you feel to start NOW?",
                 s1f6: "Briefly describe why you want to achieve this goal:", s1f6p: "E.g., 'I want to feel more confident'",
-
                 s2Title: "Section 2: Your Starting Point",
                 s2f1: "Age:", s2f2: "Biological Sex:", generoMasc: "Male", generoFem: "Female",
                 s2f3: "Height (cm):", s2f4: "Current Weight (kg):", s2f5: "Goal Weight (kg):", s2f6: "Waist Measurement (cm, Optional):",
-
                 s3Title: "Section 3: Your Lifestyle",
                 s3f1: "Briefly describe your occupation:",
                 s3f2: "DAILY activity level (not including exercise):", s3f2o1: "Sedentary (office job, little movement)", s3f2o2: "Light (occasional walks, standing part of the day)", s3f2o3: "Active (physical job, walk or move a lot)", s3f2o4: "Very Active (intense physical labor, athlete)",
                 s3f3: "How many hours do you sleep per night on average?", s3f3o1: "Less than 5 hours", s3f3o2: "5-6 hours", s3f3o3: "6-7 hours", s3f3o4: "7-8 hours", s3f3o5: "More than 8 hours",
                 s3f4: "From 1 to 10, how would you rate your average stress level?",
-
                 s4Title: "Section 4: Nutrition Habits",
                 s4f1: "Do you have any relevant allergies, intolerances, or medical conditions?", s4f1p: "E.g., Lactose intolerance, nut allergy, etc.",
                 s4f2: "Do you follow any dietary preferences?", s4f2o1: "None", s4f2o2: "Vegetarian", s4f2o3: "Vegan", s4f2o4: "Pescatarian", s4f2o5: "Other",
@@ -535,7 +523,6 @@
                 s4f6: "What do you usually drink besides water?", s4f6p: "E.g., Sodas, juices, coffee with sugar, etc.",
                 s4f7: "Regarding alcohol consumption, which best describes your habit?", s4f7o1: "I don't drink", s4f7o2: "Occasionally (1-2 times a month)", s4f7o3: "Socially (weekends)", s4f7o4: "Frequently (several times a week)",
                 s4f8: "How often do you eat out?", s4f8o1: "Rarely (almost never)", s4f8o2: "1-2 times a week", s4f8o3: "3-5 times a week", s4f8o4: "Almost daily",
-
                 s5Title: "Section 5: Training Experience",
                 s5f1: "What is your training experience level?", expOpt1: "Beginner (Never trained or very little)", expOpt2: "Intermediate (6+ months of consistent training)", expOpt3: "Advanced (Years of training)",
                 s5f2: "Where are you going to train?", s5f2o1: "Gym", s5f2o2: "At Home",
@@ -545,7 +532,6 @@
                 s5f6: "How much time do you have available PER session?", s5f6o1: "30-45 minutes", s5f6o2: "45-60 minutes", s5f6o3: "60-90 minutes", s5f6o4: "More than 90 minutes",
                 s5f7: "Do you have any injuries (past or present)?", placeholderLesiones: "If none, write 'None'.",
                 s5f8: "Is there anything else you think I should know?", s5f8p: "Fears, past challenges, etc.",
-                
                 btnEnviar: "Send My Questionnaire",
                 footerRights: `&copy; ${new Date().getFullYear()} Frank Mercado Fit. All rights reserved.`
             },
@@ -555,23 +541,19 @@
                 formRequired: "Las preguntas con <span class='text-red-500 font-bold'>*</span> son obligatorias.",
                 errorMsg: "Debes completar este campo.",
                 selectOpt: "Selecciona...",
-
                 s1Title: "Sección 1: Información Básica y Objetivos",
                 s1f1: "Nombre Completo:", s1f2: "Tu Mejor Correo Electrónico:", s1f3: "Número de WhatsApp (Opcional):",
                 s1f4: "¿Cuál es tu objetivo principal?", s1f4o1: "Perder grasa / Definir", s1f4o2: "Ganar masa muscular", s1f4o3: "Recomposición Corporal (Ganar músculo y perder grasa a la vez)", s1f4o4: "Mejorar mi salud y hábitos en general", s1f4o5: "Otro",
                 s1f5: "Del 1 al 10, ¿qué tan comprometido/a te sientes para empezar AHORA?",
                 s1f6: "Describe brevemente por qué quieres lograr este objetivo:", s1f6p: "Ej: 'Quiero sentirme con más confianza'",
-
                 s2Title: "Sección 2: Tu Punto de Partida",
                 s2f1: "Edad:", s2f2: "Sexo Biológico:", generoMasc: "Masculino", generoFem: "Femenino",
                 s2f3: "Altura (en cm):", s2f4: "Peso Actual (en kg):", s2f5: "Peso Deseado (en kg):", s2f6: "Medida de Cintura en cm (Opcional):",
-
                 s3Title: "Sección 3: Tu Estilo de Vida",
                 s3f1: "Describe brevemente tu ocupación:",
                 s3f2: "Nivel de actividad DIARIA (sin contar ejercicio):", s3f2o1: "Sedentario (trabajo de oficina, poco movimiento)", s3f2o2: "Ligero (caminatas ocasionales, de pie parte del día)", s3f2o3: "Activo (trabajo físico, camino o me muevo mucho)", s3f2o4: "Muy Activo (trabajo físico intenso, atleta)",
                 s3f3: "¿Cuántas horas duermes por noche en promedio?", s3f3o1: "Menos de 5 horas", s3f3o2: "5-6 horas", s3f3o3: "6-7 horas", s3f3o4: "7-8 horas", s3f3o5: "Más de 8 horas",
                 s3f4: "Del 1 al 10, ¿cómo calificarías tu nivel de estrés promedio?",
-
                 s4Title: "Sección 4: Hábitos de Nutrición",
                 s4f1: "¿Tienes alguna alergia, intolerancia o condición médica relevante?", s4f1p: "Ej: Intolerancia a la lactosa, alergia a frutos secos, etc.",
                 s4f2: "¿Sigues alguna preferencia dietética?", s4f2o1: "Ninguna", s4f2o2: "Vegetariana", s4f2o3: "Vegana", s4f2o4: "Pescetariana", s4f2o5: "Otro",
@@ -581,7 +563,6 @@
                 s4f6: "¿Qué sueles beber además de agua?", s4f6p: "Ej: Gaseosas, jugos, café con azúcar, etc.",
                 s4f7: "Respecto al consumo de alcohol, ¿cuál describe mejor tu hábito?", s4f7o1: "No consumo", s4f7o2: "Ocasionalmente (1-2 veces al mes)", s4f7o3: "Socialmente (fines de semana)", s4f7o4: "Frecuentemente (varias veces por semana)",
                 s4f8: "¿Con qué frecuencia sueles comer fuera de casa?", s4f8o1: "Rara vez (casi nunca)", s4f8o2: "1-2 veces por semana", s4f8o3: "3-5 veces por semana", s4f8o4: "Casi a diario",
-
                 s5Title: "Sección 5: Experiencia de Entrenamiento",
                 s5f1: "Cuál es tu nivel de experiencia entrenando?", expOpt1: "Principiante (Nunca he entrenado o muy poco)", expOpt2: "Intermedio (Llevo entrenando consistentemente 6+ meses)", expOpt3: "Avanzado (Llevo años entrenando)",
                 s5f2: "¿Dónde vas a entrenar?", s5f2o1: "Gimnasio / Gym", s5f2o2: "En Casa",
@@ -591,68 +572,50 @@
                 s5f6: "¿Cuánto tiempo tienes disponible POR SESIÓN?", s5f6o1: "30-45 minutos", s5f6o2: "45-60 minutos", s5f6o3: "60-90 minutos", s5f6o4: "Más de 90 minutos",
                 s5f7: "¿Tienes alguna lesión (pasada o presente)?", placeholderLesiones: "Si no tienes, escribe 'Ninguna'.",
                 s5f8: "¿Hay algo más que crees que debería saber?", s5f8p: "Miedos, desafíos pasados, etc.",
-
                 btnEnviar: "Enviar Mi Cuestionario",
                 footerRights: `&copy; ${new Date().getFullYear()} Frank Mercado Fit. Todos los derechos reservados.`
             }
         };
-
         const setLanguage = (lang) => {
             document.documentElement.lang = lang;
-            
             document.querySelectorAll('[data-key]').forEach(el => {
                 const key = el.getAttribute('data-key');
                 if (translations[lang]?.[key]) el.innerHTML = translations[lang][key];
             });
-
             document.querySelectorAll('[data-key-placeholder]').forEach(el => {
                 const key = el.getAttribute('data-key-placeholder');
                 if (translations[lang]?.[key]) el.placeholder = translations[lang][key];
             });
-
-             // Volver a inicializar los menús personalizados después de cambiar el idioma
             initializeCustomSelects(lang);
         };
-        
-        // --- SCRIPT PARA MENÚS DESPLEGABLES PERSONALIZADOS ---
         function initializeCustomSelects(lang) {
             const customSelects = document.querySelectorAll('.custom-select-wrapper');
-            
             customSelects.forEach(wrapper => {
-                // Limpiar el contenido anterior para evitar duplicados al cambiar de idioma
                 const oldTrigger = wrapper.querySelector('.custom-select-trigger');
                 const oldOptions = wrapper.querySelector('.custom-select-options');
                 if(oldTrigger) oldTrigger.remove();
                 if(oldOptions) oldOptions.remove();
-
                 const hiddenSelect = wrapper.querySelector('.hidden-select');
                 const trigger = document.createElement('div');
                 trigger.className = 'custom-select-trigger';
                 trigger.setAttribute('tabindex', '0');
-                
                 const optionsContainer = document.createElement('div');
                 optionsContainer.className = 'custom-select-options';
-
                 let selectedText = translations[lang].selectOpt;
-                
                 Array.from(hiddenSelect.options).forEach((option) => {
                     if (option.value === "") return;
-
                     if (hiddenSelect.value === option.value) {
                          const key = option.getAttribute('data-key');
                          selectedText = key ? translations[lang][key] : option.textContent;
                     }
-
                     const customOption = document.createElement('div');
                     customOption.className = 'custom-select-option';
                     customOption.dataset.value = option.value;
                     const optionKey = option.getAttribute('data-key');
                     customOption.textContent = optionKey ? translations[lang][optionKey] : option.textContent;
-                    
                     if (hiddenSelect.value === option.value) {
                         customOption.classList.add('selected');
                     }
-
                     customOption.addEventListener('click', (e) => {
                         e.stopPropagation();
                         hiddenSelect.value = option.value;
@@ -660,17 +623,13 @@
                         wrapper.querySelectorAll('.custom-select-option').forEach(opt => opt.classList.remove('selected'));
                         customOption.classList.add('selected');
                         wrapper.classList.remove('open');
-                        // Disparar un evento de cambio en el select oculto para validación si es necesario
                         hiddenSelect.dispatchEvent(new Event('change'));
                     });
-                    
                     optionsContainer.appendChild(customOption);
                 });
-
                 trigger.textContent = selectedText;
                 wrapper.appendChild(trigger);
                 wrapper.appendChild(optionsContainer);
-
                 trigger.addEventListener('click', (e) => {
                     e.stopPropagation();
                     customSelects.forEach(otherWrapper => {
@@ -680,12 +639,10 @@
                 });
             });
         }
-
         document.addEventListener('DOMContentLoaded', () => {
             const savedLang = localStorage.getItem('language') || (navigator.language.startsWith('en') ? 'en' : 'es');
             setLanguage(savedLang);
         });
-
         window.addEventListener('click', function(e) {
             document.querySelectorAll('.custom-select-wrapper').forEach(wrapper => {
                 if (!wrapper.contains(e.target)) {
@@ -693,7 +650,6 @@
                 }
             });
         });
-
     </script>
 </body>
 </html>

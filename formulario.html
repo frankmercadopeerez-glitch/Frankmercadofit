@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cuestionario M-Fit™ - Frank Mercado Fit</title>
-    <link rel="icon" type="image/jpeg" href="images/favicon.jpg">
+    <link rel="icon" type="image/jpeg" href="/images/favicon.jpg">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,11 +14,10 @@
             font-family: 'Inter', sans-serif;
             background-color: #f0f4f8;
         }
-        /* Transiciones suaves para todos los elementos del formulario */
-        .form-input, .form-select, .form-textarea {
+        .form-input, .form-textarea {
             transition: all 0.2s ease-in-out;
         }
-        .form-input:focus, .form-select:focus, .form-textarea:focus {
+        .form-input:focus, .form-textarea:focus {
             box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.5);
             border-color: #3b82f6;
         }
@@ -40,6 +39,80 @@
         .form-group.error .error-message {
             display: block;
         }
+        
+        /* --- ESTILOS PARA MENÚS DESPLEGABLES PERSONALIZADOS --- */
+        .custom-select-wrapper {
+            position: relative;
+        }
+        .custom-select-trigger {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.75rem 1rem;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #1f2937;
+            background-color: #fff;
+            border: 1px solid #d1d5db;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+            user-select: none;
+        }
+        .custom-select-trigger::after {
+            content: '';
+            display: block;
+            width: 0.5rem;
+            height: 0.5rem;
+            border-right: 2px solid #6b7280;
+            border-bottom: 2px solid #6b7280;
+            transform: translateY(-25%) rotate(45deg);
+            transition: transform 0.2s ease-in-out;
+        }
+        .custom-select-wrapper.open .custom-select-trigger {
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.5);
+            border-color: #3b82f6;
+        }
+        .custom-select-wrapper.open .custom-select-trigger::after {
+            transform: translateY(0%) rotate(225deg);
+        }
+        .custom-select-options {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: #fff;
+            border: 1px solid #d1d5db;
+            border-radius: 0.5rem;
+            margin-top: 0.25rem;
+            z-index: 10;
+            overflow: hidden;
+            max-height: 0;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: max-height 0.3s ease, opacity 0.3s ease, transform 0.3s ease;
+        }
+        .custom-select-wrapper.open .custom-select-options {
+            max-height: 200px; /* Altura máxima del desplegable */
+            opacity: 1;
+            transform: translateY(0);
+            overflow-y: auto;
+        }
+        .custom-select-option {
+            padding: 0.75rem 1rem;
+            cursor: pointer;
+        }
+        .custom-select-option:hover {
+            background-color: #f3f4f6;
+        }
+        .custom-select-option.selected {
+            background-color: #e0e7ff;
+            font-weight: 600;
+        }
+        .hidden-select {
+            display: none;
+        }
     </style>
 </head>
 <body class="text-gray-800">
@@ -56,9 +129,9 @@
                 <h1 data-key="formTitle" class="text-3xl md:text-4xl font-black text-center mb-2">Cuestionario de Valoración Fitness</h1>
                 <p data-key="formWelcome" class="text-gray-600 text-center mb-4">¡Bienvenido/a! Estás a un paso de recibir tu plan personalizado. Las siguientes preguntas son esenciales para diseñar un Sistema M-Fit™ 100% adaptado a ti.</p>
                 <p data-key="formRequired" class="text-sm text-center text-gray-500 mb-8">Las preguntas con <span class="text-red-500 font-bold">*</span> son obligatorias.</p>
-
-                <!-- CORRECCIÓN 1: Se cambió action="/success.html" a "success.html" -->
-                <form id="mfit-form" name="cuestionario-mfit" method="POST" data-netlify="true" action="success.html" novalidate>
+                
+                <!-- CORRECCIÓN APLICADA AQUÍ -->
+                <form id="mfit-form" name="cuestionario-mfit" method="POST" data-netlify="true" action="/success.html" novalidate>
                     <input type="hidden" name="form-name" value="cuestionario-mfit" />
 
                     <div class="space-y-10">
@@ -116,7 +189,7 @@
 
                         <!-- SECCIÓN 2 -->
                         <div>
-                            <h2 class="text-xl font-bold border-b pb-2 mb-6" data-key="s2Title">Sección 2: Tu Punto de Partida</h2>
+                             <h2 class="text-xl font-bold border-b pb-2 mb-6" data-key="s2Title">Sección 2: Tu Punto de Partida</h2>
                              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div class="form-group">
                                     <label for="edad" class="block text-sm font-semibold text-gray-700 mb-2"><span data-key="s2f1">Edad:</span> <span class="text-red-500">*</span></label>
@@ -125,11 +198,13 @@
                                 </div>
                                 <div class="form-group">
                                     <label class="block text-sm font-semibold text-gray-700 mb-2"><span data-key="s2f2">Sexo Biológico:</span> <span class="text-red-500">*</span></label>
-                                    <select name="sexo_biologico" class="form-select w-full px-4 py-3 border border-gray-300 rounded-lg" required>
-                                        <option value="" data-key="selectOpt">Selecciona...</option>
-                                        <option value="Masculino" data-key="generoMasc">Masculino</option>
-                                        <option value="Femenino" data-key="generoFem">Femenino</option>
-                                    </select>
+                                    <div class="custom-select-wrapper">
+                                        <select name="sexo_biologico" class="hidden-select" required>
+                                            <option value=""></option>
+                                            <option value="Masculino">Masculino</option>
+                                            <option value="Femenino">Femenino</option>
+                                        </select>
+                                    </div>
                                     <span class="text-red-500 text-sm error-message" data-key="errorMsg">Debes completar este campo.</span>
                                 </div>
                                 <div class="form-group">
@@ -173,14 +248,16 @@
                                 </div>
                                 <div class="form-group">
                                     <label class="block text-sm font-semibold text-gray-700 mb-2" data-key="s3f3">¿Cuántas horas duermes por noche en promedio?</label>
-                                    <select name="horas_sueno" class="form-select w-full px-4 py-3 border border-gray-300 rounded-lg">
-                                        <option value="" data-key="selectOpt">Selecciona...</option>
-                                        <option value="Menos de 5" data-key="s3f3o1">Menos de 5 horas</option>
-                                        <option value="5-6" data-key="s3f3o2">5-6 horas</option>
-                                        <option value="6-7" data-key="s3f3o3">6-7 horas</option>
-                                        <option value="7-8" data-key="s3f3o4">7-8 horas</option>
-                                        <option value="Mas de 8" data-key="s3f3o5">Más de 8 horas</option>
-                                    </select>
+                                    <div class="custom-select-wrapper">
+                                        <select name="horas_sueno" class="hidden-select">
+                                            <option value=""></option>
+                                            <option value="Menos de 5" data-key="s3f3o1">Menos de 5 horas</option>
+                                            <option value="5-6" data-key="s3f3o2">5-6 horas</option>
+                                            <option value="6-7" data-key="s3f3o3">6-7 horas</option>
+                                            <option value="7-8" data-key="s3f3o4">7-8 horas</option>
+                                            <option value="Mas de 8" data-key="s3f3o5">Más de 8 horas</option>
+                                        </select>
+                                    </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="block text-sm font-semibold text-gray-700 mb-2" data-key="s3f4">Del 1 al 10, ¿cómo calificarías tu nivel de estrés promedio?</label>
@@ -221,14 +298,16 @@
                                 </div>
                                  <div class="form-group">
                                     <label class="block text-sm font-semibold text-gray-700 mb-2" data-key="s4f3">¿Cuántas comidas principales haces al día?</label>
-                                    <select name="numero_comidas" class="form-select w-full px-4 py-3 border border-gray-300 rounded-lg">
-                                        <option value="" data-key="selectOpt">Selecciona...</option>
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                        <option value="5 o mas" data-key="s4f3o5">5 o más</option>
-                                    </select>
+                                    <div class="custom-select-wrapper">
+                                        <select name="numero_comidas" class="hidden-select">
+                                            <option value=""></option>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5 o mas" data-key="s4f3o5">5 o más</option>
+                                        </select>
+                                    </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="block text-sm font-semibold text-gray-700 mb-2"><span data-key="s4f4">Marca los grupos de alimentos que MÁS te gustan:</span> <span class="text-red-500">*</span></label>
@@ -255,23 +334,27 @@
                                 </div>
                                 <div class="form-group">
                                     <label class="block text-sm font-semibold text-gray-700 mb-2" data-key="s4f7">Respecto al consumo de alcohol, ¿cuál describe mejor tu hábito?</label>
-                                     <select name="consumo_alcohol" class="form-select w-full px-4 py-3 border border-gray-300 rounded-lg">
-                                        <option value="" data-key="selectOpt">Selecciona...</option>
-                                        <option value="No consumo" data-key="s4f7o1">No consumo</option>
-                                        <option value="Ocasionalmente (1-2 veces al mes)" data-key="s4f7o2">Ocasionalmente (1-2 veces al mes)</option>
-                                        <option value="Socialmente (fines de semana)" data-key="s4f7o3">Socialmente (fines de semana)</option>
-                                        <option value="Frecuentemente (varias veces por semana)" data-key="s4f7o4">Frecuentemente (varias veces por semana)</option>
-                                    </select>
+                                     <div class="custom-select-wrapper">
+                                        <select name="consumo_alcohol" class="hidden-select">
+                                            <option value=""></option>
+                                            <option value="No consumo" data-key="s4f7o1">No consumo</option>
+                                            <option value="Ocasionalmente (1-2 veces al mes)" data-key="s4f7o2">Ocasionalmente (1-2 veces al mes)</option>
+                                            <option value="Socialmente (fines de semana)" data-key="s4f7o3">Socialmente (fines de semana)</option>
+                                            <option value="Frecuentemente (varias veces por semana)" data-key="s4f7o4">Frecuentemente (varias veces por semana)</option>
+                                        </select>
+                                    </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="block text-sm font-semibold text-gray-700 mb-2" data-key="s4f8">¿Con qué frecuencia sueles comer fuera de casa?</label>
-                                     <select name="comer_fuera" class="form-select w-full px-4 py-3 border border-gray-300 rounded-lg">
-                                        <option value="" data-key="selectOpt">Selecciona...</option>
-                                        <option value="Rara vez (casi nunca)" data-key="s4f8o1">Rara vez (casi nunca)</option>
-                                        <option value="1-2 veces por semana" data-key="s4f8o2">1-2 veces por semana</option>
-                                        <option value="3-5 veces por semana" data-key="s4f8o3">3-5 veces por semana</option>
-                                        <option value="Casi a diario" data-key="s4f8o4">Casi a diario</option>
-                                    </select>
+                                     <div class="custom-select-wrapper">
+                                        <select name="comer_fuera" class="hidden-select">
+                                            <option value=""></option>
+                                            <option value="Rara vez (casi nunca)" data-key="s4f8o1">Rara vez (casi nunca)</option>
+                                            <option value="1-2 veces por semana" data-key="s4f8o2">1-2 veces por semana</option>
+                                            <option value="3-5 veces por semana" data-key="s4f8o3">3-5 veces por semana</option>
+                                            <option value="Casi a diario" data-key="s4f8o4">Casi a diario</option>
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -282,21 +365,25 @@
                              <div class="space-y-6">
                                 <div class="form-group">
                                     <label class="block text-sm font-semibold text-gray-700 mb-2"><span data-key="s5f1">¿Cuál es tu nivel de experiencia entrenando?</span> <span class="text-red-500">*</span></label>
-                                    <select name="experiencia_entrenamiento" class="form-select w-full px-4 py-3 border border-gray-300 rounded-lg" required>
-                                        <option value="" data-key="selectOpt">Selecciona...</option>
-                                        <option value="Principiante" data-key="expOpt1">Principiante (Nunca he entrenado o muy poco)</option>
-                                        <option value="Intermedio" data-key="expOpt2">Intermedio (Llevo entrenando consistentemente 6+ meses)</option>
-                                        <option value="Avanzado" data-key="expOpt3">Avanzado (Llevo años entrenando)</option>
-                                    </select>
+                                    <div class="custom-select-wrapper">
+                                        <select name="experiencia_entrenamiento" class="hidden-select" required>
+                                            <option value=""></option>
+                                            <option value="Principiante" data-key="expOpt1">Principiante (Nunca he entrenado o muy poco)</option>
+                                            <option value="Intermedio" data-key="expOpt2">Intermedio (Llevo entrenando consistentemente 6+ meses)</option>
+                                            <option value="Avanzado" data-key="expOpt3">Avanzado (Llevo años entrenando)</option>
+                                        </select>
+                                    </div>
                                     <span class="text-red-500 text-sm error-message" data-key="errorMsg">Debes completar este campo.</span>
                                 </div>
                                 <div class="form-group">
                                     <label class="block text-sm font-semibold text-gray-700 mb-2"><span data-key="s5f2">¿Dónde vas a entrenar?</span> <span class="text-red-500">*</span></label>
-                                    <select name="lugar_entrenamiento" class="form-select w-full px-4 py-3 border border-gray-300 rounded-lg" required>
-                                        <option value="" data-key="selectOpt">Selecciona...</option>
-                                        <option value="Gimnasio" data-key="s5f2o1">Gimnasio / Gym</option>
-                                        <option value="Casa" data-key="s5f2o2">En Casa</option>
-                                    </select>
+                                    <div class="custom-select-wrapper">
+                                        <select name="lugar_entrenamiento" class="hidden-select" required>
+                                            <option value=""></option>
+                                            <option value="Gimnasio" data-key="s5f2o1">Gimnasio / Gym</option>
+                                            <option value="Casa" data-key="s5f2o2">En Casa</option>
+                                        </select>
+                                    </div>
                                     <span class="text-red-500 text-sm error-message" data-key="errorMsg">Debes completar este campo.</span>
                                 </div>
                                  <div class="form-group">
@@ -316,25 +403,29 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="dias_semana" class="block text-sm font-semibold text-gray-700 mb-2"><span data-key="s5f5">¿Cuántos días A LA SEMANA puedes comprometerte a entrenar?</span> <span class="text-red-500">*</span></label>
-                                    <select name="dias_por_semana" id="dias_semana" class="form-select w-full px-4 py-3 border border-gray-300 rounded-lg" required>
-                                        <option value="" data-key="selectOpt">Selecciona...</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                        <option value="5">5</option>
-                                        <option value="6">6</option>
-                                    </select>
+                                    <div class="custom-select-wrapper">
+                                        <select name="dias_por_semana" id="dias_semana" class="hidden-select" required>
+                                            <option value=""></option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                            <option value="6">6</option>
+                                        </select>
+                                    </div>
                                     <span class="text-red-500 text-sm error-message" data-key="errorMsg">Debes completar este campo.</span>
                                 </div>
                                 <div class="form-group">
                                     <label for="tiempo_sesion" class="block text-sm font-semibold text-gray-700 mb-2"><span data-key="s5f6">¿Cuánto tiempo tienes disponible POR SESIÓN?</span> <span class="text-red-500">*</span></label>
-                                    <select name="tiempo_por_sesion" id="tiempo_sesion" class="form-select w-full px-4 py-3 border border-gray-300 rounded-lg" required>
-                                        <option value="" data-key="selectOpt">Selecciona...</option>
-                                        <option value="30-45 min" data-key="s5f6o1">30-45 minutos</option>
-                                        <option value="45-60 min" data-key="s5f6o2">45-60 minutos</option>
-                                        <option value="60-90 min" data-key="s5f6o3">60-90 minutos</option>
-                                        <option value="90+ min" data-key="s5f6o4">Más de 90 minutos</option>
-                                    </select>
+                                    <div class="custom-select-wrapper">
+                                        <select name="tiempo_por_sesion" id="tiempo_sesion" class="hidden-select" required>
+                                            <option value=""></option>
+                                            <option value="30-45 min" data-key="s5f6o1">30-45 minutos</option>
+                                            <option value="45-60 min" data-key="s5f6o2">45-60 minutos</option>
+                                            <option value="60-90 min" data-key="s5f6o3">60-90 minutos</option>
+                                            <option value="90+ min" data-key="s5f6o4">Más de 90 minutos</option>
+                                        </select>
+                                    </div>
                                     <span class="text-red-500 text-sm error-message" data-key="errorMsg">Debes completar este campo.</span>
                                 </div>
                                 <div class="form-group">
@@ -371,7 +462,7 @@
     <script>
         document.getElementById('year').textContent = new Date().getFullYear();
 
-        // --- VALIDATION SCRIPT ---
+        // --- SCRIPT DE VALIDACIÓN ---
         const form = document.getElementById('mfit-form');
         form.addEventListener('submit', function(event) {
             if (!validateForm()) {
@@ -410,7 +501,7 @@
             return isValid;
         }
 
-        // --- TRANSLATION SCRIPT ---
+        // --- SCRIPT DE TRADUCCIÓN ---
         const translations = {
             en: {
                 formTitle: "Fitness Assessment Questionnaire",
@@ -518,12 +609,91 @@
                 const key = el.getAttribute('data-key-placeholder');
                 if (translations[lang]?.[key]) el.placeholder = translations[lang][key];
             });
+
+             // Volver a inicializar los menús personalizados después de cambiar el idioma
+            initializeCustomSelects(lang);
         };
         
+        // --- SCRIPT PARA MENÚS DESPLEGABLES PERSONALIZADOS ---
+        function initializeCustomSelects(lang) {
+            const customSelects = document.querySelectorAll('.custom-select-wrapper');
+            
+            customSelects.forEach(wrapper => {
+                // Limpiar el contenido anterior para evitar duplicados al cambiar de idioma
+                const oldTrigger = wrapper.querySelector('.custom-select-trigger');
+                const oldOptions = wrapper.querySelector('.custom-select-options');
+                if(oldTrigger) oldTrigger.remove();
+                if(oldOptions) oldOptions.remove();
+
+                const hiddenSelect = wrapper.querySelector('.hidden-select');
+                const trigger = document.createElement('div');
+                trigger.className = 'custom-select-trigger';
+                trigger.setAttribute('tabindex', '0');
+                
+                const optionsContainer = document.createElement('div');
+                optionsContainer.className = 'custom-select-options';
+
+                let selectedText = translations[lang].selectOpt;
+                
+                Array.from(hiddenSelect.options).forEach((option) => {
+                    if (option.value === "") return;
+
+                    if (hiddenSelect.value === option.value) {
+                         const key = option.getAttribute('data-key');
+                         selectedText = key ? translations[lang][key] : option.textContent;
+                    }
+
+                    const customOption = document.createElement('div');
+                    customOption.className = 'custom-select-option';
+                    customOption.dataset.value = option.value;
+                    const optionKey = option.getAttribute('data-key');
+                    customOption.textContent = optionKey ? translations[lang][optionKey] : option.textContent;
+                    
+                    if (hiddenSelect.value === option.value) {
+                        customOption.classList.add('selected');
+                    }
+
+                    customOption.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        hiddenSelect.value = option.value;
+                        trigger.textContent = customOption.textContent;
+                        wrapper.querySelectorAll('.custom-select-option').forEach(opt => opt.classList.remove('selected'));
+                        customOption.classList.add('selected');
+                        wrapper.classList.remove('open');
+                        // Disparar un evento de cambio en el select oculto para validación si es necesario
+                        hiddenSelect.dispatchEvent(new Event('change'));
+                    });
+                    
+                    optionsContainer.appendChild(customOption);
+                });
+
+                trigger.textContent = selectedText;
+                wrapper.appendChild(trigger);
+                wrapper.appendChild(optionsContainer);
+
+                trigger.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    customSelects.forEach(otherWrapper => {
+                        if (otherWrapper !== wrapper) otherWrapper.classList.remove('open');
+                    });
+                    wrapper.classList.toggle('open');
+                });
+            });
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
             const savedLang = localStorage.getItem('language') || (navigator.language.startsWith('en') ? 'en' : 'es');
             setLanguage(savedLang);
         });
+
+        window.addEventListener('click', function(e) {
+            document.querySelectorAll('.custom-select-wrapper').forEach(wrapper => {
+                if (!wrapper.contains(e.target)) {
+                    wrapper.classList.remove('open');
+                }
+            });
+        });
+
     </script>
 </body>
 </html>

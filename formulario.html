@@ -9,17 +9,33 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    
+    <!-- Script para Modo Noche/Día y configuración de Tailwind -->
+    <script>
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+          document.documentElement.classList.add('dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+        }
+        tailwind.config = {
+          darkMode: 'class',
+        }
+    </script>
+    
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f0f4f8;
         }
-        .form-input, .form-textarea {
+        .form-input, .form-textarea, .custom-select-trigger {
             transition: all 0.2s ease-in-out;
         }
-        .form-input:focus, .form-textarea:focus {
+        .form-input:focus, .form-textarea:focus, .custom-select-wrapper.open .custom-select-trigger {
             box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.5);
             border-color: #3b82f6;
+        }
+        .dark .form-input:focus, .dark .form-textarea:focus, .dark .custom-select-wrapper.open .custom-select-trigger {
+            box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.5);
+            border-color: #60a5fa;
         }
         .scale-10-label {
             min-width: 2rem;
@@ -28,107 +44,68 @@
             border: 1px solid #d1d5db;
             transition: all 0.2s ease-in-out;
         }
+        .dark .scale-10-label {
+            border-color: #4b5563;
+        }
         .scale-10-input:checked + .scale-10-label {
             background-color: #3b82f6;
             color: white;
             border-color: #3b82f6;
         }
-        .error-message {
-            display: none;
-        }
-        .form-group.error .error-message {
-            display: block;
-        }
+        .error-message { display: none; }
+        .form-group.error .error-message { display: block; }
         
-        /* --- ESTILOS PARA MENÚS DESPLEGABLES PERSONALIZADOS --- */
-        .custom-select-wrapper {
-            position: relative;
-        }
-        .custom-select-trigger {
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0.75rem 1rem;
-            font-size: 1rem;
-            font-weight: 500;
-            color: #1f2937;
-            background-color: #fff;
-            border: 1px solid #d1d5db;
-            border-radius: 0.5rem;
-            cursor: pointer;
-            transition: all 0.2s ease-in-out;
-            user-select: none;
-        }
-        .custom-select-trigger::after {
-            content: '';
-            display: block;
-            width: 0.5rem;
-            height: 0.5rem;
-            border-right: 2px solid #6b7280;
-            border-bottom: 2px solid #6b7280;
-            transform: translateY(-25%) rotate(45deg);
-            transition: transform 0.2s ease-in-out;
-        }
-        .custom-select-wrapper.open .custom-select-trigger {
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.5);
-            border-color: #3b82f6;
-        }
-        .custom-select-wrapper.open .custom-select-trigger::after {
-            transform: translateY(0%) rotate(225deg);
-        }
-        .custom-select-options {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            right: 0;
-            background: #fff;
-            border: 1px solid #d1d5db;
-            border-radius: 0.5rem;
-            margin-top: 0.25rem;
-            z-index: 10;
-            overflow: hidden;
-            max-height: 0;
-            opacity: 0;
-            transform: translateY(-10px);
-            transition: max-height 0.3s ease, opacity 0.3s ease, transform 0.3s ease;
-        }
-        .custom-select-wrapper.open .custom-select-options {
-            max-height: 200px; /* Altura máxima del desplegable */
-            opacity: 1;
-            transform: translateY(0);
-            overflow-y: auto;
-        }
-        .custom-select-option {
-            padding: 0.75rem 1rem;
-            cursor: pointer;
-        }
-        .custom-select-option:hover {
-            background-color: #f3f4f6;
-        }
-        .custom-select-option.selected {
-            background-color: #e0e7ff;
-            font-weight: 600;
-        }
-        .hidden-select {
-            display: none;
-        }
+        .custom-select-wrapper { position: relative; }
+        .custom-select-trigger { position: relative; display: flex; align-items: center; justify-content: space-between; padding: 0.75rem 1rem; font-size: 1rem; font-weight: 500; border-radius: 0.5rem; cursor: pointer; user-select: none; }
+        .custom-select-trigger::after { content: ''; display: block; width: 0.5rem; height: 0.5rem; border-right: 2px solid #6b7280; border-bottom: 2px solid #6b7280; transform: translateY(-25%) rotate(45deg); transition: transform 0.2s ease-in-out; }
+        .dark .custom-select-trigger::after { border-color: #9ca3af; }
+        .custom-select-wrapper.open .custom-select-trigger::after { transform: translateY(0%) rotate(225deg); }
+        .custom-select-options { position: absolute; top: 100%; left: 0; right: 0; z-index: 10; overflow: hidden; max-height: 0; opacity: 0; transform: translateY(-10px); transition: max-height 0.3s ease, opacity 0.3s ease, transform 0.3s ease; }
+        .custom-select-wrapper.open .custom-select-options { max-height: 200px; opacity: 1; transform: translateY(0); overflow-y: auto; }
+        .custom-select-option { padding: 0.75rem 1rem; cursor: pointer; }
+        .custom-select-option.selected { font-weight: 600; }
+        .hidden-select { display: none; }
     </style>
 </head>
-<body class="text-gray-800">
+<body class="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-200 transition-colors duration-300">
 
-    <header class="bg-white shadow-sm">
-        <nav class="container mx-auto px-6 py-4 flex justify-center items-center">
-            <a href="index.html" class="text-2xl font-bold text-gray-900">Frank Mercado <span class="text-blue-600">Fit</span></a>
+    <header class="bg-white dark:bg-gray-800 shadow-sm">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="index.html" class="text-2xl font-bold text-gray-900 dark:text-white">Frank Mercado <span class="text-blue-600">Fit</span></a>
+            <div class="flex items-center space-x-4">
+                <!-- Nuevo Selector de Idioma con Banderas -->
+                <div class="relative group">
+                    <button id="current-lang-btn" class="flex items-center space-x-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">
+                        <!-- El SVG de la bandera actual se insertará aquí mediante JS -->
+                    </button>
+                    <div class="absolute top-full right-0 mt-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-md shadow-lg opacity-0 group-hover:opacity-100 invisible group-hover:visible transition-all duration-300 w-40">
+                        <a href="#" id="lang-es-dropdown" class="flex items-center space-x-3 px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">
+                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 rounded-sm" viewBox="0 0 3 2"><path fill="#FCDD09" d="M0 0h3v2H0z"/><path fill="#DA121A" d="M0 0h3v.5H0zm0 1.5h3V2H0z"/></svg>
+                             <span data-key="langSpanish">Español</span>
+                        </a>
+                        <a href="#" id="lang-en-dropdown" class="flex items-center space-x-3 px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">
+                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 rounded-sm" viewBox="0 0 60 30" ><clipPath id="s"><path d="M0 0v30h60V0z"/></clipPath><clipPath id="t"><path d="M30 15h30v15zv15h-30zh-30v-15zv-15h30z"/></clipPath><g clip-path="url(#s)"><path d="M0 0v30h60V0z" fill="#012169"/><path d="M0 0l60 30m0-30L0 30" stroke="#fff" stroke-width="6"/><path d="M0 0l60 30m0-30L0 30" clip-path="url(#t)" stroke="#C8102E" stroke-width="4"/><path d="M30 0v30M0 15h60" stroke="#fff" stroke-width="10"/><path d="M30 0v30M0 15h60" stroke="#C8102E" stroke-width="6"/></g></svg>
+                             <span data-key="langEnglish">English</span>
+                        </a>
+                    </div>
+                </div>
+                 <!-- Botón Modo Noche/Día -->
+                <button id="theme-toggle" class="text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg text-sm p-2.5">
+                    <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+                    <svg id="theme-toggle-light-icon" class="hidden w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" />
+                    </svg>
+                </button>
+            </div>
         </nav>
     </header>
 
     <main class="py-12 md:py-20">
         <div class="container mx-auto px-6">
-            <div class="max-w-3xl mx-auto bg-white p-8 md:p-12 rounded-2xl shadow-lg">
-                <h1 data-key="formTitle" class="text-3xl md:text-4xl font-black text-center mb-2">Cuestionario de Valoración Fitness</h1>
-                <p data-key="formWelcome" class="text-gray-600 text-center mb-4">¡Bienvenido/a! Estás a un paso de recibir tu plan personalizado. Las siguientes preguntas son esenciales para diseñar un Sistema M-Fit™ 100% adaptado a ti.</p>
-                <p data-key="formRequired" class="text-sm text-center text-gray-500 mb-8">Las preguntas con <span class="text-red-500 font-bold">*</span> son obligatorias.</p>
+            <div class="max-w-3xl mx-auto bg-white dark:bg-gray-800 p-8 md:p-12 rounded-2xl shadow-lg">
+                <h1 data-key="formTitle" class="text-3xl md:text-4xl font-black text-center mb-2 text-gray-900 dark:text-white">Cuestionario de Valoración Fitness</h1>
+                <p data-key="formWelcome" class="text-gray-600 dark:text-gray-300 text-center mb-4">¡Bienvenido/a! Estás a un paso de recibir tu plan personalizado. Las siguientes preguntas son esenciales para diseñar un Sistema M-Fit™ 100% adaptado a ti.</p>
+                <p data-key="formRequired" class="text-sm text-center text-gray-500 dark:text-gray-400 mb-8">Las preguntas con <span class="text-red-500 font-bold">*</span> son obligatorias.</p>
                 
                 <form id="mfit-form" method="POST" action="https://formspree.io/f/xblzowrj" novalidate>
                     
@@ -137,24 +114,24 @@
                     <div class="space-y-10">
                         <!-- SECCIÓN 1 -->
                         <div>
-                            <h2 class="text-xl font-bold border-b pb-2 mb-6" data-key="s1Title">Sección 1: Información Básica y Objetivos</h2>
+                            <h2 class="text-xl font-bold border-b border-gray-200 dark:border-gray-700 pb-2 mb-6 text-gray-900 dark:text-white" data-key="s1Title">Sección 1: Información Básica y Objetivos</h2>
                             <div class="space-y-6">
                                 <div class="form-group">
-                                    <label for="nombre" class="block text-sm font-semibold text-gray-700 mb-2"><span data-key="s1f1">Nombre Completo:</span> <span class="text-red-500">*</span></label>
-                                    <input type="text" name="nombre_completo" id="nombre" class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg" required>
+                                    <label for="nombre" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2"><span data-key="s1f1">Nombre Completo:</span> <span class="text-red-500">*</span></label>
+                                    <input type="text" name="nombre_completo" id="nombre" class="form-input w-full px-4 py-3 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg" required>
                                     <span class="text-red-500 text-sm error-message" data-key="errorMsg">Debes completar este campo.</span>
                                 </div>
                                 <div class="form-group">
-                                    <label for="email" class="block text-sm font-semibold text-gray-700 mb-2"><span data-key="s1f2">Tu Mejor Correo Electrónico:</span> <span class="text-red-500">*</span></label>
-                                    <input type="email" name="email" id="email" class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg" required>
+                                    <label for="email" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2"><span data-key="s1f2">Tu Mejor Correo Electrónico:</span> <span class="text-red-500">*</span></label>
+                                    <input type="email" name="email" id="email" class="form-input w-full px-4 py-3 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg" required>
                                     <span class="text-red-500 text-sm error-message" data-key="errorMsg">Debes completar este campo.</span>
                                 </div>
                                 <div class="form-group">
-                                    <label for="whatsapp" class="block text-sm font-semibold text-gray-700 mb-2" data-key="s1f3">Número de WhatsApp (Opcional):</label>
-                                    <input type="tel" name="whatsapp" id="whatsapp" class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg">
+                                    <label for="whatsapp" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2" data-key="s1f3">Número de WhatsApp (Opcional):</label>
+                                    <input type="tel" name="whatsapp" id="whatsapp" class="form-input w-full px-4 py-3 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg">
                                 </div>
                                 <div class="form-group">
-                                    <label class="block text-sm font-semibold text-gray-700 mb-2"><span data-key="s1f4">¿Cuál es tu objetivo principal?</span> <span class="text-red-500">*</span></label>
+                                    <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2"><span data-key="s1f4">¿Cuál es tu objetivo principal?</span> <span class="text-red-500">*</span></label>
                                     <div class="space-y-2">
                                         <label class="flex items-center"><input type="radio" name="objetivo_principal" value="Perder grasa / Definir" class="mr-2" required><span data-key="s1f4o1">Perder grasa / Definir</span></label>
                                         <label class="flex items-center"><input type="radio" name="objetivo_principal" value="Ganar masa muscular" class="mr-2"><span data-key="s1f4o2">Ganar masa muscular</span></label>
@@ -165,7 +142,7 @@
                                     <span class="text-red-500 text-sm error-message" data-key="errorMsg">Debes completar este campo.</span>
                                 </div>
                                 <div class="form-group">
-                                    <label class="block text-sm font-semibold text-gray-700 mb-2"><span data-key="s1f5">Del 1 al 10, ¿qué tan comprometido/a te sientes para empezar AHORA?</span> <span class="text-red-500">*</span></label>
+                                    <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2"><span data-key="s1f5">Del 1 al 10, ¿qué tan comprometido/a te sientes para empezar AHORA?</span> <span class="text-red-500">*</span></label>
                                     <div class="flex flex-wrap gap-2">
                                         <input type="radio" id="comp1" name="compromiso" value="1" class="sr-only scale-10-input" required><label for="comp1" class="scale-10-label flex items-center justify-center rounded-md font-bold">1</label>
                                         <input type="radio" id="comp2" name="compromiso" value="2" class="sr-only scale-10-input"><label for="comp2" class="scale-10-label flex items-center justify-center rounded-md font-bold">2</label>
@@ -181,63 +158,63 @@
                                     <span class="text-red-500 text-sm error-message" data-key="errorMsg">Debes completar este campo.</span>
                                 </div>
                                 <div class="form-group">
-                                    <label for="porque_objetivo" class="block text-sm font-semibold text-gray-700 mb-2" data-key="s1f6">Describe brevemente por qué quieres lograr este objetivo:</label>
-                                    <textarea name="porque_objetivo" id="porque_objetivo" rows="3" class="form-textarea w-full px-4 py-3 border border-gray-300 rounded-lg" data-key-placeholder="s1f6p"></textarea>
+                                    <label for="porque_objetivo" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2" data-key="s1f6">Describe brevemente por qué quieres lograr este objetivo:</label>
+                                    <textarea name="porque_objetivo" id="porque_objetivo" rows="3" class="form-textarea w-full px-4 py-3 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg" data-key-placeholder="s1f6p"></textarea>
                                 </div>
                             </div>
                         </div>
 
                         <!-- SECCIÓN 2 -->
                         <div>
-                             <h2 class="text-xl font-bold border-b pb-2 mb-6" data-key="s2Title">Sección 2: Tu Punto de Partida</h2>
+                             <h2 class="text-xl font-bold border-b border-gray-200 dark:border-gray-700 pb-2 mb-6 text-gray-900 dark:text-white" data-key="s2Title">Sección 2: Tu Punto de Partida</h2>
                              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div class="form-group">
-                                    <label for="edad" class="block text-sm font-semibold text-gray-700 mb-2"><span data-key="s2f1">Edad:</span> <span class="text-red-500">*</span></label>
-                                    <input type="number" name="edad" id="edad" class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg" required>
+                                    <label for="edad" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2"><span data-key="s2f1">Edad:</span> <span class="text-red-500">*</span></label>
+                                    <input type="number" name="edad" id="edad" class="form-input w-full px-4 py-3 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg" required>
                                     <span class="text-red-500 text-sm error-message" data-key="errorMsg">Debes completar este campo.</span>
                                 </div>
                                 <div class="form-group">
-                                    <label class="block text-sm font-semibold text-gray-700 mb-2"><span data-key="s2f2">Sexo Biológico:</span> <span class="text-red-500">*</span></label>
+                                    <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2"><span data-key="s2f2">Sexo Biológico:</span> <span class="text-red-500">*</span></label>
                                     <div class="custom-select-wrapper">
                                         <select name="sexo_biologico" class="hidden-select" required>
                                             <option value=""></option>
-                                            <option value="Masculino">Masculino</option>
-                                            <option value="Femenino">Femenino</option>
+                                            <option value="Masculino" data-key="generoMasc">Masculino</option>
+                                            <option value="Femenino" data-key="generoFem">Femenino</option>
                                         </select>
                                     </div>
                                     <span class="text-red-500 text-sm error-message" data-key="errorMsg">Debes completar este campo.</span>
                                 </div>
                                 <div class="form-group">
-                                    <label for="estatura" class="block text-sm font-semibold text-gray-700 mb-2"><span data-key="s2f3">Altura (en cm):</span> <span class="text-red-500">*</span></label>
-                                    <input type="text" inputmode="decimal" name="altura_cm" id="estatura" class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg" required>
+                                    <label for="estatura" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2"><span data-key="s2f3">Altura (en cm):</span> <span class="text-red-500">*</span></label>
+                                    <input type="text" inputmode="decimal" name="altura_cm" id="estatura" class="form-input w-full px-4 py-3 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg" required>
                                      <span class="text-red-500 text-sm error-message" data-key="errorMsg">Debes completar este campo.</span>
                                 </div>
                                <div class="form-group">
-                                    <label for="peso" class="block text-sm font-semibold text-gray-700 mb-2"><span data-key="s2f4">Peso Actual (en kg):</span> <span class="text-red-500">*</span></label>
-                                    <input type="text" inputmode="decimal" name="peso_kg" id="peso" class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg" required>
+                                    <label for="peso" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2"><span data-key="s2f4">Peso Actual (en kg):</span> <span class="text-red-500">*</span></label>
+                                    <input type="text" inputmode="decimal" name="peso_kg" id="peso" class="form-input w-full px-4 py-3 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg" required>
                                     <span class="text-red-500 text-sm error-message" data-key="errorMsg">Debes completar este campo.</span>
                                 </div>
                                 <div class="form-group">
-                                    <label for="peso_deseado" class="block text-sm font-semibold text-gray-700 mb-2" data-key="s2f5">Peso Deseado (en kg):</label>
-                                    <input type="text" inputmode="decimal" name="peso_deseado_kg" id="peso_deseado" class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg">
+                                    <label for="peso_deseado" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2" data-key="s2f5">Peso Deseado (en kg):</label>
+                                    <input type="text" inputmode="decimal" name="peso_deseado_kg" id="peso_deseado" class="form-input w-full px-4 py-3 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg">
                                 </div>
                                 <div class="form-group">
-                                    <label for="cintura" class="block text-sm font-semibold text-gray-700 mb-2" data-key="s2f6">Medida de Cintura en cm (Opcional):</label>
-                                    <input type="text" inputmode="decimal" name="cintura_cm" id="cintura" class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg">
+                                    <label for="cintura" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2" data-key="s2f6">Medida de Cintura en cm (Opcional):</label>
+                                    <input type="text" inputmode="decimal" name="cintura_cm" id="cintura" class="form-input w-full px-4 py-3 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg">
                                 </div>
                             </div>
                         </div>
                         
                         <!-- SECCIÓN 3 -->
                         <div>
-                            <h2 class="text-xl font-bold border-b pb-2 mb-6" data-key="s3Title">Sección 3: Tu Estilo de Vida</h2>
+                            <h2 class="text-xl font-bold border-b border-gray-200 dark:border-gray-700 pb-2 mb-6 text-gray-900 dark:text-white" data-key="s3Title">Sección 3: Tu Estilo de Vida</h2>
                             <div class="space-y-6">
                                 <div class="form-group">
-                                    <label for="ocupacion" class="block text-sm font-semibold text-gray-700 mb-2" data-key="s3f1">Describe brevemente tu ocupación:</label>
-                                    <input type="text" name="ocupacion" id="ocupacion" class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg">
+                                    <label for="ocupacion" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2" data-key="s3f1">Describe brevemente tu ocupación:</label>
+                                    <input type="text" name="ocupacion" id="ocupacion" class="form-input w-full px-4 py-3 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg">
                                 </div>
                                 <div class="form-group">
-                                    <label class="block text-sm font-semibold text-gray-700 mb-2"><span data-key="s3f2">Nivel de actividad DIARIA (sin contar ejercicio):</span> <span class="text-red-500">*</span></label>
+                                    <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2"><span data-key="s3f2">Nivel de actividad DIARIA (sin contar ejercicio):</span> <span class="text-red-500">*</span></label>
                                     <div class="space-y-2">
                                         <label class="flex items-center"><input type="radio" name="actividad_diaria" value="Sedentario" class="mr-2" required><span data-key="s3f2o1">Sedentario (trabajo de oficina, poco movimiento)</span></label>
                                         <label class="flex items-center"><input type="radio" name="actividad_diaria" value="Ligero" class="mr-2"><span data-key="s3f2o2">Ligero (caminatas ocasionales, de pie parte del día)</span></label>
@@ -247,7 +224,7 @@
                                     <span class="text-red-500 text-sm error-message" data-key="errorMsg">Debes completar este campo.</span>
                                 </div>
                                 <div class="form-group">
-                                    <label class="block text-sm font-semibold text-gray-700 mb-2" data-key="s3f3">¿Cuántas horas duermes por noche en promedio?</label>
+                                    <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2" data-key="s3f3">¿Cuántas horas duermes por noche en promedio?</label>
                                     <div class="custom-select-wrapper">
                                         <select name="horas_sueno" class="hidden-select">
                                             <option value=""></option>
@@ -260,7 +237,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="block text-sm font-semibold text-gray-700 mb-2" data-key="s3f4">Del 1 al 10, ¿cómo calificarías tu nivel de estrés promedio?</label>
+                                    <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2" data-key="s3f4">Del 1 al 10, ¿cómo calificarías tu nivel de estrés promedio?</label>
                                     <div class="flex flex-wrap gap-2">
                                         <input type="radio" id="estres1" name="nivel_estres" value="1" class="sr-only scale-10-input"><label for="estres1" class="scale-10-label flex items-center justify-center rounded-md font-bold">1</label>
                                         <input type="radio" id="estres2" name="nivel_estres" value="2" class="sr-only scale-10-input"><label for="estres2" class="scale-10-label flex items-center justify-center rounded-md font-bold">2</label>
@@ -279,15 +256,15 @@
 
                         <!-- SECCIÓN 4 -->
                         <div>
-                            <h2 class="text-xl font-bold border-b pb-2 mb-6" data-key="s4Title">Sección 4: Hábitos de Nutrición</h2>
+                            <h2 class="text-xl font-bold border-b border-gray-200 dark:border-gray-700 pb-2 mb-6 text-gray-900 dark:text-white" data-key="s4Title">Sección 4: Hábitos de Nutrición</h2>
                             <div class="space-y-6">
                                 <div class="form-group">
-                                    <label for="alergias" class="block text-sm font-semibold text-gray-700 mb-2"><span data-key="s4f1">¿Tienes alguna alergia, intolerancia o condición médica relevante?</span> <span class="text-red-500">*</span></label>
-                                    <input type="text" name="alergias_condiciones" id="alergias" class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg" required data-key-placeholder="s4f1p">
+                                    <label for="alergias" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2"><span data-key="s4f1">¿Tienes alguna alergia, intolerancia o condición médica relevante?</span> <span class="text-red-500">*</span></label>
+                                    <input type="text" name="alergias_condiciones" id="alergias" class="form-input w-full px-4 py-3 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg" required data-key-placeholder="s4f1p">
                                     <span class="text-red-500 text-sm error-message" data-key="errorMsg">Debes completar este campo.</span>
                                 </div>
                                 <div class="form-group">
-                                    <label class="block text-sm font-semibold text-gray-700 mb-2" data-key="s4f2">¿Sigues alguna preferencia dietética?</label>
+                                    <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2" data-key="s4f2">¿Sigues alguna preferencia dietética?</label>
                                     <div class="space-y-2">
                                         <label class="flex items-center"><input type="radio" name="dieta_preferencia" value="Ninguna" class="mr-2"><span data-key="s4f2o1">Ninguna</span></label>
                                         <label class="flex items-center"><input type="radio" name="dieta_preferencia" value="Vegetariana" class="mr-2"><span data-key="s4f2o2">Vegetariana</span></label>
@@ -297,7 +274,7 @@
                                     </div>
                                 </div>
                                  <div class="form-group">
-                                    <label class="block text-sm font-semibold text-gray-700 mb-2" data-key="s4f3">¿Cuántas comidas principales haces al día?</label>
+                                    <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2" data-key="s4f3">¿Cuántas comidas principales haces al día?</label>
                                     <div class="custom-select-wrapper">
                                         <select name="numero_comidas" class="hidden-select">
                                             <option value=""></option>
@@ -310,7 +287,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="block text-sm font-semibold text-gray-700 mb-2"><span data-key="s4f4">Marca los grupos de alimentos que MÁS te gustan:</span> <span class="text-red-500">*</span></label>
+                                    <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2"><span data-key="s4f4">Marca los grupos de alimentos que MÁS te gustan:</span> <span class="text-red-500">*</span></label>
                                     <div class="grid grid-cols-2 md:grid-cols-3 gap-2">
                                         <label class="flex items-center"><input type="checkbox" name="alimentos_favoritos[]" value="Pollo" class="mr-2" required> <span data-key="s4f4o1">Pollo</span></label>
                                         <label class="flex items-center"><input type="checkbox" name="alimentos_favoritos[]" value="Carne roja" class="mr-2"> <span data-key="s4f4o2">Carne roja</span></label>
@@ -325,15 +302,15 @@
                                     <span class="text-red-500 text-sm error-message" data-key="errorMsg">Debes completar este campo.</span>
                                 </div>
                                 <div class="form-group">
-                                    <label for="alimentos_odiados" class="block text-sm font-semibold text-gray-700 mb-2" data-key="s4f5">¿Hay algún alimento que ODIAS?</label>
-                                    <input type="text" name="alimentos_odiados" id="alimentos_odiados" class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg">
+                                    <label for="alimentos_odiados" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2" data-key="s4f5">¿Hay algún alimento que ODIAS?</label>
+                                    <input type="text" name="alimentos_odiados" id="alimentos_odiados" class="form-input w-full px-4 py-3 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg">
                                 </div>
                                 <div class="form-group">
-                                    <label for="bebidas" class="block text-sm font-semibold text-gray-700 mb-2" data-key="s4f6">¿Qué sueles beber además de agua?</label>
-                                    <input type="text" name="otras_bebidas" id="bebidas" class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg" data-key-placeholder="s4f6p">
+                                    <label for="bebidas" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2" data-key="s4f6">¿Qué sueles beber además de agua?</label>
+                                    <input type="text" name="otras_bebidas" id="bebidas" class="form-input w-full px-4 py-3 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg" data-key-placeholder="s4f6p">
                                 </div>
                                 <div class="form-group">
-                                    <label class="block text-sm font-semibold text-gray-700 mb-2" data-key="s4f7">Respecto al consumo de alcohol, ¿cuál describe mejor tu hábito?</label>
+                                    <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2" data-key="s4f7">Respecto al consumo de alcohol, ¿cuál describe mejor tu hábito?</label>
                                      <div class="custom-select-wrapper">
                                         <select name="consumo_alcohol" class="hidden-select">
                                             <option value=""></option>
@@ -345,7 +322,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="block text-sm font-semibold text-gray-700 mb-2" data-key="s4f8">¿Con qué frecuencia sueles comer fuera de casa?</label>
+                                    <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2" data-key="s4f8">¿Con qué frecuencia sueles comer fuera de casa?</label>
                                      <div class="custom-select-wrapper">
                                         <select name="comer_fuera" class="hidden-select">
                                             <option value=""></option>
@@ -361,10 +338,10 @@
 
                         <!-- SECCIÓN 5 -->
                         <div>
-                             <h2 class="text-xl font-bold border-b pb-2 mb-6" data-key="s5Title">Sección 5: Experiencia de Entrenamiento</h2>
+                             <h2 class="text-xl font-bold border-b border-gray-200 dark:border-gray-700 pb-2 mb-6 text-gray-900 dark:text-white" data-key="s5Title">Sección 5: Experiencia de Entrenamiento</h2>
                              <div class="space-y-6">
                                 <div class="form-group">
-                                    <label class="block text-sm font-semibold text-gray-700 mb-2"><span data-key="s5f1">¿Cuál es tu nivel de experiencia entrenando?</span> <span class="text-red-500">*</span></label>
+                                    <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2"><span data-key="s5f1">¿Cuál es tu nivel de experiencia entrenando?</span> <span class="text-red-500">*</span></label>
                                     <div class="custom-select-wrapper">
                                         <select name="experiencia_entrenamiento" class="hidden-select" required>
                                             <option value=""></option>
@@ -376,7 +353,7 @@
                                     <span class="text-red-500 text-sm error-message" data-key="errorMsg">Debes completar este campo.</span>
                                 </div>
                                 <div class="form-group">
-                                    <label class="block text-sm font-semibold text-gray-700 mb-2"><span data-key="s5f2">¿Dónde vas a entrenar?</span> <span class="text-red-500">*</span></label>
+                                    <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2"><span data-key="s5f2">¿Dónde vas a entrenar?</span> <span class="text-red-500">*</span></label>
                                     <div class="custom-select-wrapper">
                                         <select name="lugar_entrenamiento" class="hidden-select" required>
                                             <option value=""></option>
@@ -387,7 +364,7 @@
                                     <span class="text-red-500 text-sm error-message" data-key="errorMsg">Debes completar este campo.</span>
                                 </div>
                                  <div class="form-group">
-                                    <label class="block text-sm font-semibold text-gray-700 mb-2" data-key="s5f3">Si entrenas en casa, ¿qué equipamiento tienes?</label>
+                                    <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2" data-key="s5f3">Si entrenas en casa, ¿qué equipamiento tienes?</label>
                                     <div class="grid grid-cols-2 gap-2">
                                         <label class="flex items-center"><input type="checkbox" name="equipamiento[]" value="Mancuernas" class="mr-2"><span data-key="s5f3o1">Mancuernas</span></label>
                                         <label class="flex items-center"><input type="checkbox" name="equipamiento[]" value="Bandas de resistencia" class="mr-2"><span data-key="s5f3o2">Bandas de resistencia</span></label>
@@ -398,11 +375,11 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="equipamiento_pesos" class="block text-sm font-semibold text-gray-700 mb-2" data-key="s5f4">Si tienes mancuernas/kettlebell, especifica los pesos:</label>
-                                    <input type="text" name="equipamiento_pesos" id="equipamiento_pesos" class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg">
+                                    <label for="equipamiento_pesos" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2" data-key="s5f4">Si tienes mancuernas/kettlebell, especifica los pesos:</label>
+                                    <input type="text" name="equipamiento_pesos" id="equipamiento_pesos" class="form-input w-full px-4 py-3 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg">
                                 </div>
                                 <div class="form-group">
-                                    <label for="dias_semana" class="block text-sm font-semibold text-gray-700 mb-2"><span data-key="s5f5">¿Cuántos días A LA SEMANA puedes comprometerte a entrenar?</span> <span class="text-red-500">*</span></label>
+                                    <label for="dias_semana" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2"><span data-key="s5f5">¿Cuántos días A LA SEMANA puedes comprometerte a entrenar?</span> <span class="text-red-500">*</span></label>
                                     <div class="custom-select-wrapper">
                                         <select name="dias_por_semana" id="dias_semana" class="hidden-select" required>
                                             <option value=""></option>
@@ -416,7 +393,7 @@
                                     <span class="text-red-500 text-sm error-message" data-key="errorMsg">Debes completar este campo.</span>
                                 </div>
                                 <div class="form-group">
-                                    <label for="tiempo_sesion" class="block text-sm font-semibold text-gray-700 mb-2"><span data-key="s5f6">¿Cuánto tiempo tienes disponible POR SESIÓN?</span> <span class="text-red-500">*</span></label>
+                                    <label for="tiempo_sesion" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2"><span data-key="s5f6">¿Cuánto tiempo tienes disponible POR SESIÓN?</span> <span class="text-red-500">*</span></label>
                                     <div class="custom-select-wrapper">
                                         <select name="tiempo_por_sesion" id="tiempo_sesion" class="hidden-select" required>
                                             <option value=""></option>
@@ -429,13 +406,13 @@
                                     <span class="text-red-500 text-sm error-message" data-key="errorMsg">Debes completar este campo.</span>
                                 </div>
                                 <div class="form-group">
-                                    <label for="lesiones" class="block text-sm font-semibold text-gray-700 mb-2"><span data-key="s5f7">¿Tienes alguna lesión (pasada o presente)?</span> <span class="text-red-500">*</span></label>
-                                    <textarea name="lesiones" id="lesiones" rows="3" class="form-textarea w-full px-4 py-3 border border-gray-300 rounded-lg" required data-key-placeholder="placeholderLesiones"></textarea>
+                                    <label for="lesiones" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2"><span data-key="s5f7">¿Tienes alguna lesión (pasada o presente)?</span> <span class="text-red-500">*</span></label>
+                                    <textarea name="lesiones" id="lesiones" rows="3" class="form-textarea w-full px-4 py-3 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg" required data-key-placeholder="placeholderLesiones"></textarea>
                                     <span class="text-red-500 text-sm error-message" data-key="errorMsg">Debes completar este campo.</span>
                                 </div>
                                 <div class="form-group">
-                                    <label for="comentarios_finales" class="block text-sm font-semibold text-gray-700 mb-2" data-key="s5f8">¿Hay algo más que crees que debería saber?</label>
-                                    <textarea name="comentarios_finales" id="comentarios_finales" rows="3" class="form-textarea w-full px-4 py-3 border border-gray-300 rounded-lg" data-key-placeholder="s5f8p"></textarea>
+                                    <label for="comentarios_finales" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2" data-key="s5f8">¿Hay algo más que crees que debería saber?</label>
+                                    <textarea name="comentarios_finales" id="comentarios_finales" rows="3" class="form-textarea w-full px-4 py-3 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg" data-key-placeholder="s5f8p"></textarea>
                                 </div>
                             </div>
                         </div>
@@ -532,7 +509,7 @@
             }
         });
 
-        // --- SCRIPT DE TRADUCCIÓN (SIN CAMBIOS) ---
+        // --- SCRIPT DE TRADUCCIÓN Y LÓGICA GENERAL ---
         const translations = {
             en: {
                 formTitle: "Fitness Assessment Questionnaire",
@@ -572,7 +549,9 @@
                 s5f7: "Do you have any injuries (past or present)?", placeholderLesiones: "If none, write 'None'.",
                 s5f8: "Is there anything else you think I should know?", s5f8p: "Fears, past challenges, etc.",
                 btnEnviar: "Send My Questionnaire",
-                footerRights: `&copy; ${new Date().getFullYear()} Frank Mercado Fit. All rights reserved.`
+                footerRights: `&copy; ${new Date().getFullYear()} Frank Mercado Fit. All rights reserved.`,
+                langSpanish: "Spanish",
+                langEnglish: "English",
             },
             es: {
                 formTitle: "Cuestionario de Valoración Fitness",
@@ -612,13 +591,39 @@
                 s5f7: "¿Tienes alguna lesión (pasada o presente)?", placeholderLesiones: "Si no tienes, escribe 'Ninguna'.",
                 s5f8: "¿Hay algo más que crees que debería saber?", s5f8p: "Miedos, desafíos pasados, etc.",
                 btnEnviar: "Enviar Mi Cuestionario",
-                footerRights: `&copy; ${new Date().getFullYear()} Frank Mercado Fit. Todos los derechos reservados.`
+                footerRights: `&copy; ${new Date().getFullYear()} Frank Mercado Fit. Todos los derechos reservados.`,
+                langSpanish: "Español",
+                langEnglish: "Inglés",
             }
         };
 
         // --- SCRIPT PARA MENÚS DESPLEGABLES (SIN CAMBIOS) ---
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+        const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+        const langEsDropdown = document.getElementById('lang-es-dropdown');
+        const langEnDropdown = document.getElementById('lang-en-dropdown');
+        const currentLangBtn = document.getElementById('current-lang-btn');
+
+        const toggleTheme = () => {
+            document.documentElement.classList.toggle('dark');
+            const isDarkMode = document.documentElement.classList.contains('dark');
+            localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+            updateThemeIcons(isDarkMode);
+        };
+        const updateThemeIcons = (isDarkMode) => {
+            themeToggleDarkIcon.classList.toggle('hidden', isDarkMode);
+            themeToggleLightIcon.classList.toggle('hidden', !isDarkMode);
+        };
+
+        const flagSVGs = {
+            es: `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 rounded-sm" viewBox="0 0 3 2"><path fill="#FCDD09" d="M0 0h3v2H0z"/><path fill="#DA121A" d="M0 0h3v.5H0zm0 1.5h3V2H0z"/></svg>`,
+            en: `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 rounded-sm" viewBox="0 0 60 30" ><clipPath id="s"><path d="M0 0v30h60V0z"/></clipPath><clipPath id="t"><path d="M30 15h30v15zv15h-30zh-30v-15zv-15h30z"/></clipPath><g clip-path="url(#s)"><path d="M0 0v30h60V0z" fill="#012169"/><path d="M0 0l60 30m0-30L0 30" stroke="#fff" stroke-width="6"/><path d="M0 0l60 30m0-30L0 30" clip-path="url(#t)" stroke="#C8102E" stroke-width="4"/><path d="M30 0v30M0 15h60" stroke="#fff" stroke-width="10"/><path d="M30 0v30M0 15h60" stroke="#C8102E" stroke-width="6"/></g></svg>`
+        };
+        
         const setLanguage = (lang) => {
             document.documentElement.lang = lang;
+            localStorage.setItem('language', lang);
             document.querySelectorAll('[data-key]').forEach(el => {
                 const key = el.getAttribute('data-key');
                 if (translations[lang]?.[key]) el.innerHTML = translations[lang][key];
@@ -627,42 +632,44 @@
                 const key = el.getAttribute('data-key-placeholder');
                 if (translations[lang]?.[key]) el.placeholder = translations[lang][key];
             });
+            currentLangBtn.innerHTML = flagSVGs[lang];
             initializeCustomSelects(lang);
         };
+        
         function initializeCustomSelects(lang) {
-            const customSelects = document.querySelectorAll('.custom-select-wrapper');
-            customSelects.forEach(wrapper => {
+            const isDarkMode = document.documentElement.classList.contains('dark');
+            document.querySelectorAll('.custom-select-wrapper').forEach(wrapper => {
                 const oldTrigger = wrapper.querySelector('.custom-select-trigger');
                 const oldOptions = wrapper.querySelector('.custom-select-options');
                 if(oldTrigger) oldTrigger.remove();
                 if(oldOptions) oldOptions.remove();
                 const hiddenSelect = wrapper.querySelector('.hidden-select');
                 const trigger = document.createElement('div');
-                trigger.className = 'custom-select-trigger';
+                trigger.className = 'custom-select-trigger text-gray-800 dark:text-gray-200 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600';
                 trigger.setAttribute('tabindex', '0');
                 const optionsContainer = document.createElement('div');
-                optionsContainer.className = 'custom-select-options';
+                optionsContainer.className = 'custom-select-options bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-md shadow-lg';
                 let selectedText = translations[lang].selectOpt;
                 Array.from(hiddenSelect.options).forEach((option) => {
                     if (option.value === "") return;
                     if (hiddenSelect.value === option.value) {
                          const key = option.getAttribute('data-key');
-                         selectedText = key ? translations[lang][key] : option.textContent;
+                         selectedText = key && translations[lang][key] ? translations[lang][key] : option.textContent;
                     }
                     const customOption = document.createElement('div');
-                    customOption.className = 'custom-select-option';
+                    customOption.className = 'custom-select-option hover:bg-gray-100 dark:hover:bg-gray-600';
                     customOption.dataset.value = option.value;
                     const optionKey = option.getAttribute('data-key');
-                    customOption.textContent = optionKey ? translations[lang][optionKey] : option.textContent;
+                    customOption.textContent = optionKey && translations[lang][optionKey] ? translations[lang][optionKey] : option.textContent;
                     if (hiddenSelect.value === option.value) {
-                        customOption.classList.add('selected');
+                        customOption.classList.add('selected', 'bg-blue-50', 'dark:bg-blue-900/50');
                     }
                     customOption.addEventListener('click', (e) => {
                         e.stopPropagation();
                         hiddenSelect.value = option.value;
                         trigger.textContent = customOption.textContent;
-                        wrapper.querySelectorAll('.custom-select-option').forEach(opt => opt.classList.remove('selected'));
-                        customOption.classList.add('selected');
+                        wrapper.querySelectorAll('.custom-select-option').forEach(opt => opt.classList.remove('selected', 'bg-blue-50', 'dark:bg-blue-900/50'));
+                        customOption.classList.add('selected', 'bg-blue-50', 'dark:bg-blue-900/50');
                         wrapper.classList.remove('open');
                         hiddenSelect.dispatchEvent(new Event('change'));
                     });
@@ -673,17 +680,25 @@
                 wrapper.appendChild(optionsContainer);
                 trigger.addEventListener('click', (e) => {
                     e.stopPropagation();
-                    customSelects.forEach(otherWrapper => {
+                    document.querySelectorAll('.custom-select-wrapper').forEach(otherWrapper => {
                         if (otherWrapper !== wrapper) otherWrapper.classList.remove('open');
                     });
                     wrapper.classList.toggle('open');
                 });
             });
         }
+        
+        themeToggleBtn.addEventListener('click', toggleTheme);
+        langEsDropdown.addEventListener('click', (e) => { e.preventDefault(); setLanguage('es'); });
+        langEnDropdown.addEventListener('click', (e) => { e.preventDefault(); setLanguage('en'); });
+        
         document.addEventListener('DOMContentLoaded', () => {
+            const isDarkMode = document.documentElement.classList.contains('dark');
+            updateThemeIcons(isDarkMode);
             const savedLang = localStorage.getItem('language') || (navigator.language.startsWith('en') ? 'en' : 'es');
             setLanguage(savedLang);
         });
+
         window.addEventListener('click', function(e) {
             document.querySelectorAll('.custom-select-wrapper').forEach(wrapper => {
                 if (!wrapper.contains(e.target)) {

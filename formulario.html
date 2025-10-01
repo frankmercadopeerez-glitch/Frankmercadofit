@@ -34,6 +34,9 @@
         .form-input, .form-textarea, .custom-select-trigger {
             transition: all 0.2s ease-in-out;
         }
+        .form-textarea {
+            resize: none; /* CORRECCIÓN: Evita que los textareas se puedan redimensionar */
+        }
         .form-input:focus, .form-textarea:focus, .custom-select-wrapper.open .custom-select-trigger {
             box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.5);
             border-color: #3b82f6;
@@ -72,35 +75,15 @@
         .custom-select-option.selected { font-weight: 600; }
         .hidden-select { display: none; }
 
-        /* Estilos para el selector de país (intl-tel-input) */
+        /* CORRECCIÓN: Estilos para el selector de país (intl-tel-input) */
         .iti {
             width: 100%;
-            display: grid; /* Usamos grid para alinear los elementos */
-            grid-template-columns: auto 1fr;
         }
-        .iti__flag-container {
-            position: relative;
+        .iti__tel-input {
+            padding-left: 58px !important; /* Ajusta el padding para que no se superponga con la bandera */
         }
-        .iti .iti__tel-input {
-            border-top-left-radius: 0;
-            border-bottom-left-radius: 0;
-        }
-        .iti__country-list {
-            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-            border-radius: 0.5rem;
-        }
-        .dark .iti__country-list {
-            background-color: #1f2937;
-            border: 1px solid #4b5563;
-        }
-        .dark .iti__country {
-            color: #d1d5db;
-        }
-        .dark .iti__country:hover, .dark .iti__active {
-            background-color: #374151;
-        }
-        .dark .iti__dial-code {
-            color: #9ca3af;
+        .iti--separate-dial-code .iti__selected-dial-code {
+            display: none; /* Oculta el código de país duplicado */
         }
     </style>
 </head>
@@ -166,7 +149,7 @@
                                 <!-- CAMPO WHATSAPP MODIFICADO -->
                                 <div class="form-group">
                                     <label for="whatsapp" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2" data-key="s1f3">Número de WhatsApp (Opcional):</label>
-                                    <input type="tel" id="whatsapp" class="form-input w-full bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg">
+                                    <input type="tel" id="whatsapp" class="form-input w-full px-4 py-3 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg">
                                     <!-- Input oculto que se enviará con el formulario -->
                                     <input type="hidden" name="whatsapp_completo" id="whatsapp_completo">
                                 </div>
@@ -715,15 +698,9 @@
                       .catch(() => callback("us")); // Fallback a US si falla
                 },
                 preferredCountries: ['co', 'es', 'mx', 'us', 've', 'ar', 'cl', 'pe'],
-                separateDialCode: true,
+                separateDialCode: false, // CORRECCIÓN: Volver a modo integrado
                 utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.13/js/utils.js",
             });
-
-            // Sincronizar clases de Tailwind con el input del selector de país
-            const itiContainer = phoneInputField.closest('.iti');
-            const styledInput = itiContainer.querySelector('input');
-            styledInput.classList.add('bg-white', 'dark:bg-gray-700', 'border', 'border-gray-300', 'dark:border-gray-600', 'rounded-lg');
-
 
              // EVENT LISTENERS
             themeToggleBtn.addEventListener('click', toggleTheme);

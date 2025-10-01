@@ -35,7 +35,7 @@
             transition: all 0.2s ease-in-out;
         }
         .form-textarea {
-            resize: none; /* CORRECCIÓN: Evita que los textareas se puedan redimensionar */
+            resize: none; 
         }
         .form-input:focus, .form-textarea:focus, .custom-select-wrapper.open .custom-select-trigger {
             box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.5);
@@ -75,15 +75,30 @@
         .custom-select-option.selected { font-weight: 600; }
         .hidden-select { display: none; }
 
-        /* CORRECCIÓN: Estilos para el selector de país (intl-tel-input) */
+        /* Estilos para el selector de país (intl-tel-input) */
         .iti {
             width: 100%;
         }
         .iti__tel-input {
-            padding-left: 58px !important; /* Ajusta el padding para que no se superponga con la bandera */
+            padding-left: 58px !important; 
+        }
+        /* CORRECCIÓN: Estilos del menú desplegable de países en modo noche */
+        .dark .iti__country-list {
+            background-color: #1f2937; /* Fondo oscuro */
+            border: 1px solid #4b5563; /* Borde más claro */
+            color: #d1d5db; /* Texto claro */
+        }
+        .dark .iti__country {
+            color: #d1d5db; /* Color de texto para cada país */
+        }
+        .dark .iti__country:hover, .dark .iti__active {
+            background-color: #374151; /* Fondo al pasar el mouse o activo */
+        }
+        .dark .iti__dial-code {
+            color: #9ca3af; /* Color del código de país */
         }
         .iti--separate-dial-code .iti__selected-dial-code {
-            display: none; /* Oculta el código de país duplicado */
+            display: none;
         }
     </style>
 </head>
@@ -698,7 +713,7 @@
                       .catch(() => callback("us")); // Fallback a US si falla
                 },
                 preferredCountries: ['co', 'es', 'mx', 'us', 've', 'ar', 'cl', 'pe'],
-                separateDialCode: false, // CORRECCIÓN: Volver a modo integrado
+                separateDialCode: false,
                 utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.13/js/utils.js",
             });
 

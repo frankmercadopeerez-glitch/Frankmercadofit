@@ -4,11 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cuestionario M-Fit™ - Frank Mercado Fit</title>
-    <link rel="icon" type="image/jpeg" href="/images/favicon.jpg">
+    <link rel="icon" type="image/png" href="images/favicon-circular.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    
+    <!-- Librería para el selector de país (intl-tel-input) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.13/css/intlTelInput.css"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.13/js/intlTelInput.min.js"></script>
     
     <!-- Script para Modo Noche/Día y configuración de Tailwind -->
     <script>
@@ -26,6 +30,7 @@
         body {
             font-family: 'Inter', sans-serif;
         }
+        /* Estilos generales del formulario */
         .form-input, .form-textarea, .custom-select-trigger {
             transition: all 0.2s ease-in-out;
         }
@@ -55,6 +60,7 @@
         .error-message { display: none; }
         .form-group.error .error-message { display: block; }
         
+        /* Estilos para menús desplegables personalizados */
         .custom-select-wrapper { position: relative; }
         .custom-select-trigger { position: relative; display: flex; align-items: center; justify-content: space-between; padding: 0.75rem 1rem; font-size: 1rem; font-weight: 500; border-radius: 0.5rem; cursor: pointer; user-select: none; }
         .custom-select-trigger::after { content: ''; display: block; width: 0.5rem; height: 0.5rem; border-right: 2px solid #6b7280; border-bottom: 2px solid #6b7280; transform: translateY(-25%) rotate(45deg); transition: transform 0.2s ease-in-out; }
@@ -65,6 +71,37 @@
         .custom-select-option { padding: 0.75rem 1rem; cursor: pointer; }
         .custom-select-option.selected { font-weight: 600; }
         .hidden-select { display: none; }
+
+        /* Estilos para el selector de país (intl-tel-input) */
+        .iti {
+            width: 100%;
+            display: grid; /* Usamos grid para alinear los elementos */
+            grid-template-columns: auto 1fr;
+        }
+        .iti__flag-container {
+            position: relative;
+        }
+        .iti .iti__tel-input {
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+        }
+        .iti__country-list {
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            border-radius: 0.5rem;
+        }
+        .dark .iti__country-list {
+            background-color: #1f2937;
+            border: 1px solid #4b5563;
+        }
+        .dark .iti__country {
+            color: #d1d5db;
+        }
+        .dark .iti__country:hover, .dark .iti__active {
+            background-color: #374151;
+        }
+        .dark .iti__dial-code {
+            color: #9ca3af;
+        }
     </style>
 </head>
 <body class="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-200 transition-colors duration-300">
@@ -73,7 +110,7 @@
         <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
             <a href="index.html" class="text-2xl font-bold text-gray-900 dark:text-white">Frank Mercado <span class="text-blue-600">Fit</span></a>
             <div class="flex items-center space-x-4">
-                <!-- Nuevo Selector de Idioma con Banderas -->
+                <!-- Selector de Idioma con Banderas -->
                 <div class="relative group">
                     <button id="current-lang-btn" class="flex items-center space-x-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">
                         <!-- El SVG de la bandera actual se insertará aquí mediante JS -->
@@ -126,9 +163,12 @@
                                     <input type="email" name="email" id="email" class="form-input w-full px-4 py-3 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg" required>
                                     <span class="text-red-500 text-sm error-message" data-key="errorMsg">Debes completar este campo.</span>
                                 </div>
+                                <!-- CAMPO WHATSAPP MODIFICADO -->
                                 <div class="form-group">
                                     <label for="whatsapp" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2" data-key="s1f3">Número de WhatsApp (Opcional):</label>
-                                    <input type="tel" name="whatsapp" id="whatsapp" class="form-input w-full px-4 py-3 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg">
+                                    <input type="tel" id="whatsapp" class="form-input w-full bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg">
+                                    <!-- Input oculto que se enviará con el formulario -->
+                                    <input type="hidden" name="whatsapp_completo" id="whatsapp_completo">
                                 </div>
                                 <div class="form-group">
                                     <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2"><span data-key="s1f4">¿Cuál es tu objetivo principal?</span> <span class="text-red-500">*</span></label>
@@ -441,46 +481,27 @@
 
         // --- SCRIPT DE VALIDACIÓN (CORREGIDO) ---
         const form = document.getElementById('mfit-form');
-
-        // Función para validar un solo campo y mostrar/ocultar su error
         function validateField(field) {
             const group = field.closest('.form-group');
-            if (!group) return true; // Si no está en un grupo, no lo validamos aquí
-
+            if (!group) return true;
             let isFieldValid = true;
             if (field.type === 'radio') {
                 const fieldGroup = form.querySelectorAll(`input[name="${field.name}"]`);
-                if (![...fieldGroup].some(f => f.checked)) {
-                    isFieldValid = false;
-                }
+                if (![...fieldGroup].some(f => f.checked)) isFieldValid = false;
             } else if (field.type === 'checkbox') {
-                 // Para checkboxes, la validación es a nivel de grupo
                  const fieldGroup = form.querySelectorAll(`input[name="${field.name}"]`);
-                 if ([...fieldGroup].some(f => f.required) && ![...fieldGroup].some(f => f.checked)) {
-                     isFieldValid = false;
-                 }
-            } else { // text, email, number, textarea, select
-                if (field.required && field.value.trim() === '') {
-                    isFieldValid = false;
-                }
-            }
-
-            if (isFieldValid) {
-                group.classList.remove('error');
+                 if ([...fieldGroup].some(f => f.required) && ![...fieldGroup].some(f => f.checked)) isFieldValid = false;
             } else {
-                group.classList.add('error');
+                if (field.required && field.value.trim() === '') isFieldValid = false;
             }
+            group.classList.toggle('error', !isFieldValid);
             return isFieldValid;
         }
 
-        // Función principal que se llama al enviar
         function validateForm() {
             let isFormValid = true;
             const fieldsToValidate = form.querySelectorAll('[required]');
-            
-            // Usamos un Set para no validar el mismo grupo de radios/checkboxes múltiples veces
             const validatedGroups = new Set();
-
             fieldsToValidate.forEach(field => {
                 const fieldName = field.name;
                 if (field.type === 'radio' || field.type === 'checkbox') {
@@ -492,23 +513,9 @@
                     if (!validateField(field)) isFormValid = false;
                 }
             });
-
             return isFormValid;
         }
-
-        form.addEventListener('submit', function(event) {
-            if (!validateForm()) {
-                event.preventDefault();
-                // Opcional: enfocar el primer campo con error
-                const firstError = form.querySelector('.form-group.error');
-                if (firstError) {
-                    firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    const firstInput = firstError.querySelector('input, select, textarea');
-                    if (firstInput) firstInput.focus();
-                }
-            }
-        });
-
+        
         // --- SCRIPT DE TRADUCCIÓN Y LÓGICA GENERAL ---
         const translations = {
             en: {
@@ -597,13 +604,14 @@
             }
         };
 
-        // --- SCRIPT PARA MENÚS DESPLEGABLES (SIN CAMBIOS) ---
         const themeToggleBtn = document.getElementById('theme-toggle');
         const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
         const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
         const langEsDropdown = document.getElementById('lang-es-dropdown');
         const langEnDropdown = document.getElementById('lang-en-dropdown');
         const currentLangBtn = document.getElementById('current-lang-btn');
+        const phoneInputField = document.querySelector("#whatsapp");
+        const whatsappHiddenInput = document.querySelector("#whatsapp_completo");
 
         const toggleTheme = () => {
             document.documentElement.classList.toggle('dark');
@@ -637,7 +645,6 @@
         };
         
         function initializeCustomSelects(lang) {
-            const isDarkMode = document.documentElement.classList.contains('dark');
             document.querySelectorAll('.custom-select-wrapper').forEach(wrapper => {
                 const oldTrigger = wrapper.querySelector('.custom-select-trigger');
                 const oldOptions = wrapper.querySelector('.custom-select-options');
@@ -688,22 +695,66 @@
             });
         }
         
-        themeToggleBtn.addEventListener('click', toggleTheme);
-        langEsDropdown.addEventListener('click', (e) => { e.preventDefault(); setLanguage('es'); });
-        langEnDropdown.addEventListener('click', (e) => { e.preventDefault(); setLanguage('en'); });
-        
+        // --- INICIALIZACIÓN ---
         document.addEventListener('DOMContentLoaded', () => {
+            // Inicializar tema (claro/oscuro)
             const isDarkMode = document.documentElement.classList.contains('dark');
             updateThemeIcons(isDarkMode);
+            
+            // Inicializar idioma
             const savedLang = localStorage.getItem('language') || (navigator.language.startsWith('en') ? 'en' : 'es');
             setLanguage(savedLang);
-        });
 
-        window.addEventListener('click', function(e) {
-            document.querySelectorAll('.custom-select-wrapper').forEach(wrapper => {
-                if (!wrapper.contains(e.target)) {
-                    wrapper.classList.remove('open');
+            // Inicializar selector de país para WhatsApp
+            const phoneInput = window.intlTelInput(phoneInputField, {
+                initialCountry: "auto",
+                geoIpLookup: function(callback) {
+                    fetch("https://ipapi.co/json")
+                      .then(res => res.json())
+                      .then(data => callback(data.country_code || "us"))
+                      .catch(() => callback("us")); // Fallback a US si falla
+                },
+                preferredCountries: ['co', 'es', 'mx', 'us', 've', 'ar', 'cl', 'pe'],
+                separateDialCode: true,
+                utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.13/js/utils.js",
+            });
+
+            // Sincronizar clases de Tailwind con el input del selector de país
+            const itiContainer = phoneInputField.closest('.iti');
+            const styledInput = itiContainer.querySelector('input');
+            styledInput.classList.add('bg-white', 'dark:bg-gray-700', 'border', 'border-gray-300', 'dark:border-gray-600', 'rounded-lg');
+
+
+             // EVENT LISTENERS
+            themeToggleBtn.addEventListener('click', toggleTheme);
+            langEsDropdown.addEventListener('click', (e) => { e.preventDefault(); setLanguage('es'); });
+            langEnDropdown.addEventListener('click', (e) => { e.preventDefault(); setLanguage('en'); });
+
+            form.addEventListener('submit', function(event) {
+                // Actualizar el valor del input oculto con el número completo antes de enviar
+                if (phoneInputField.value.trim() && phoneInput.isValidNumber()) {
+                    whatsappHiddenInput.value = phoneInput.getNumber();
+                } else {
+                     whatsappHiddenInput.value = "";
                 }
+
+                if (!validateForm()) {
+                    event.preventDefault();
+                    const firstError = form.querySelector('.form-group.error');
+                    if (firstError) {
+                        firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        const firstInput = firstError.querySelector('input, select, textarea');
+                        if (firstInput) firstInput.focus();
+                    }
+                }
+            });
+
+            window.addEventListener('click', function(e) {
+                document.querySelectorAll('.custom-select-wrapper').forEach(wrapper => {
+                    if (!wrapper.contains(e.target)) {
+                        wrapper.classList.remove('open');
+                    }
+                });
             });
         });
     </script>
